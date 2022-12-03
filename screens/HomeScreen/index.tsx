@@ -1,30 +1,27 @@
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { TextInput, Platform, TouchableWithoutFeedback, Animated } from 'react-native';
 import {
-  TextInput,
-  Platform,
-  Text,
-  View,
-  StyleProp,
-  ViewStyle,
-  TouchableWithoutFeedback,
-  ScrollView,
-  Animated,
-} from 'react-native';
+  modalIn,
+  modalOut,
+  modalFadeIn,
+  modalFadeOut,
+  checkStyles,
+  checkAnswer,
+  getTypeText,
+  disableTextInput,
+  hydrateAnswers,
+} from '../../hooks';
 import { Container } from '../../components';
 import { Header } from '../../components/Header';
+import { GameBoard } from '../../components/GameBoard';
+import { ImageCarousel } from '../../components/ImageCarousel';
+import { InitialResultObject } from '../../models/InitialResultObject';
+import { InitialAnswerState } from '../../models/InitialAnswerState';
+import { ResultObject, Answer } from '../../types';
 import { Details } from '../Information/index';
 import { styles } from './styles';
 import * as Result from '../../hooks/temp.json';
-import { useEffect } from 'react';
-import { GameBoard } from '../../components/GameBoard';
-import { ImageCarousel } from '../../components/ImageCarousel';
-import { PlatformTypes, ResultObject, Answer } from '../../types';
-import { modalIn, modalOut, modalFadeIn, modalFadeOut } from '../../hooks/utils/Animations';
-import { checkStyles, checkAnswer, getTypeText } from '../../hooks/index';
-import { disableTextInput } from '../../hooks/utils/disableTextInput';
-import { hydrateAnswers } from '../../hooks/utils/HydrateAnswers';
-import { InitialResultObject } from '../../Models/InitialResultObject';
-import { InitialAnswerState } from '../../Models/InitialAnswerState';
+import { View, ScrollView, Text, SubText, AnimatedView } from '../../components/Theme/Themed';
 
 export const Home: React.FC = () => {
   const [modalState, setModalState] = useState(false);
@@ -75,7 +72,7 @@ export const Home: React.FC = () => {
           textInputRef.current?.focus();
         }}
       >
-        <Animated.View
+        <AnimatedView
           style={[
             checkStyles(styles.containerMobile, styles.containerWeb, Platform),
             { opacity: modalState === true ? modalFadeIn : modalFadeOut },
@@ -126,15 +123,15 @@ export const Home: React.FC = () => {
                     </Text>{' '}
                     Guesses Left!
                   </Text>
-                  <Text style={[styles.infoText, { fontSize: 12, paddingTop: 8 }]}>
+                  <SubText style={[styles.infoText, { fontSize: 12, paddingTop: 8 }]}>
                     Type anywhere to get started
-                  </Text>
+                  </SubText>
                 </View>
               </View>
               <GameBoard answer={answer} userInput={userInput} guesses={guesses} result={result} />
             </View>
           </ScrollView>
-        </Animated.View>
+        </AnimatedView>
       </TouchableWithoutFeedback>
     </Container>
   );

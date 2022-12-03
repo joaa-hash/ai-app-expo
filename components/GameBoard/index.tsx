@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { View, Text, Animated } from 'react-native';
+import { View, Text, AnimatedText } from '../Theme/Themed';
 import { Answer, ResultObject } from '../../types';
 import { styles } from './styles';
 import {
@@ -51,7 +51,7 @@ export const GameBoard: React.FC<{
             if (userInput.length === 0 && obj.id === guesses) {
               return (
                 <View key={obj.id} style={styles.answerListView}>
-                  <Animated.Text
+                  <AnimatedText
                     style={[
                       styles.answerList,
                       {
@@ -64,8 +64,8 @@ export const GameBoard: React.FC<{
                     numberOfLines={1}
                   >
                     {obj.userInput}
-                  </Animated.Text>
-                  <Animated.Text
+                  </AnimatedText>
+                  <AnimatedText
                     style={[
                       styles.answerList,
                       {
@@ -77,13 +77,13 @@ export const GameBoard: React.FC<{
                     numberOfLines={1}
                   >
                     {obj.userInput}
-                  </Animated.Text>
+                  </AnimatedText>
                 </View>
               );
             }
             return (
               <View key={obj.id} style={styles.answerListView}>
-                <Animated.Text
+                <AnimatedText
                   style={[
                     styles.answerList,
                     {
@@ -94,13 +94,13 @@ export const GameBoard: React.FC<{
                   numberOfLines={1}
                 >
                   {obj.userInput}
-                </Animated.Text>
+                </AnimatedText>
               </View>
             );
           } else {
             return (
               <View key={obj.id} style={styles.answerListView}>
-                <Animated.Text
+                <AnimatedText
                   style={[
                     styles.answerList,
                     {
@@ -113,8 +113,8 @@ export const GameBoard: React.FC<{
                   numberOfLines={1}
                 >
                   {obj.userInput}
-                </Animated.Text>
-                <Animated.Text
+                </AnimatedText>
+                <AnimatedText
                   style={[
                     styles.answerList,
                     {
@@ -126,7 +126,7 @@ export const GameBoard: React.FC<{
                   numberOfLines={1}
                 >
                   {obj.userInput}
-                </Animated.Text>
+                </AnimatedText>
               </View>
             );
           }
@@ -141,7 +141,6 @@ export const GameBoard: React.FC<{
   useEffect(() => {
     colorChangeOut();
     setTimeout(() => colorChangeIn(), 1000);
-    // showGameBoard(props.answer, props.userInput, props.guesses, checkAnswer);
   }, [props.userInput]);
 
   return (

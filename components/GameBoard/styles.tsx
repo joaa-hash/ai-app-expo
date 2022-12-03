@@ -7,7 +7,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
   answerList: {
-    color: '#fff',
     textAlign: 'center',
     textAlignVertical: 'center',
     lineHeight: 40,
@@ -25,7 +24,6 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#232323',
     backgroundColor: '#23232341',
-    color: '#fff',
     textAlign: 'center',
     textAlignVertical: 'center',
     paddingVertical: 16,
