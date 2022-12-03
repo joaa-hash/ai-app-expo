@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expo-template-rn-web-70.5",
-    "slug": "expo-template-rn-web-70.5",
+    "name": "triv-ai",
+    "slug": "triv-ai",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

@@ -3,15 +3,15 @@
  * https://docs.expo.io/guides/color-schemes/
  */
 
-import { 
-  Text as DefaultText, 
+import {
+  Text as DefaultText,
   TextInput as DefaultTextInput,
-  View as DefaultView, 
-  ScrollView as DefaultScrollView
+  View as DefaultView,
+  ScrollView as DefaultScrollView,
 } from 'react-native';
 
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
+import Colors from '../../constants/Colors';
+import useColorScheme from '../../hooks/useColorScheme';
 
 export function useThemeColor(
   props: { light?: string; dark?: string },

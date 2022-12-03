@@ -1,33 +1,28 @@
 import { Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Text, View } from '../components/Themed';
+import { Text, View } from '../components/Theme/Themed';
 import { auth } from '../firebase';
-import { getFirestore } from 'firebase/firestore'
+import { getFirestore } from 'firebase/firestore';
 import { RootStackParamList } from '../types';
 
 export default function TabTwoScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  
-
   const handleSignOut = () => {
     auth
-    .signOut()
-    .then(() => {
-      navigation.replace("Login")
-    })
-    .catch(error => alert(error.message))
-  }
+      .signOut()
+      .then(() => {
+        navigation.replace('Login');
+      })
+      .catch((error) => alert(error.message));
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{auth.currentUser?.email}</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Pressable
-        onPress={handleSignOut}
-        style={styles.button}
-      >
+      <Pressable onPress={handleSignOut} style={styles.button}>
         <Text style={[{ color: '#ffffff' }]}>Sign Out</Text>
       </Pressable>
     </View>

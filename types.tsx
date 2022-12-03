@@ -6,6 +6,13 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {
+  PlatformAndroidStatic,
+  PlatformIOSStatic,
+  PlatformMacOSStatic,
+  PlatformWebStatic,
+  PlatformWindowsOSStatic,
+} from 'react-native';
 
 declare global {
   namespace ReactNavigation {
@@ -34,4 +41,27 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
   BottomTabScreenProps<RootTabParamList, Screen>,
   NativeStackScreenProps<RootStackParamList>
 >;
- 
+
+export type PlatformTypes =
+  | PlatformIOSStatic
+  | PlatformAndroidStatic
+  | PlatformWindowsOSStatic
+  | PlatformMacOSStatic
+  | PlatformWebStatic;
+
+export type ResultObject = {
+  id: number;
+  type: string[];
+  artist: string;
+  album: string;
+  genre: string;
+  song: string;
+  keywords: string[];
+  correctResponse: string[];
+  urls: string[];
+};
+
+export type Answer = {
+  id: number;
+  userInput: string;
+}[];
