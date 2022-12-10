@@ -1,11 +1,8 @@
-/* eslint-disable eslint-comments/no-unused-disable */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import { Text, View } from 'react-native';
 import { styles } from './styles';
 
 export const StatsContainer: React.FC = () => {
-
   return (
     <View style={styles.statRow}>
       <View style={styles.statCol}>

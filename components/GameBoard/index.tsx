@@ -1,152 +1,55 @@
-import React, { useCallback, useEffect } from 'react';
-import { View, Text, AnimatedText } from '../Theme/Themed';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { View, Text } from '../Theme/Themed';
 import { Answer, ResultObject } from '../../types';
 import { styles } from './styles';
-import {
-  colorChangeIn,
-  colorChangeOut,
-  fadeInColorChange,
-  fadeOutColorChange,
-  checkAnswer,
-  setFontSize,
-} from '../../hooks/index';
+import { checkAnswer, setFontSize } from '../../hooks/index';
 import { showWinMessage } from '../WinMessage';
+import { TextColorChangeAnimation } from '../Animations/TextColorChangeAnimation';
+import { TextInput } from 'react-native';
 
-interface Props {
+type Props = {
   answer: Answer;
   userInput: string;
   guesses: number;
   result: ResultObject;
-}
+  textInputRef: React.RefObject<TextInput>;
+};
 
-export const GameBoard: React.FC<{
-  answer: Answer;
-  userInput: string;
-  guesses: number;
-  result: ResultObject;
-}> = (props: Props) => {
+export const GameBoard = ({ answer, userInput, guesses, result, textInputRef }: Props) => {
   const setGuessColor = (input: string) => {
-    return checkAnswer(props.result, input) ? 'green' : 'red';
+    return checkAnswer(result, input) ? 'green' : 'red';
   };
 
-  const showGameBoard = useCallback(
-    (answer: Answer, userInput: string, guesses: number): JSX.Element[] => {
-      console.log(userInput);
-      console.log(answer);
-
-      const toDisplay = answer.map((obj, index) => {
-        if (obj.userInput.length === 0 && index === guesses) {
-          return (
-            <View key={obj.id} style={styles.answerListView}>
-              <Text
-                style={[styles.answerList, { fontSize: setFontSize(userInput.length) }]}
-                numberOfLines={1}
-              >
-                {userInput}
-              </Text>
-            </View>
-          );
-        } else {
-          if (checkAnswer(props.result, obj.userInput) !== true && obj.id <= guesses) {
-            if (userInput.length === 0 && obj.id === guesses) {
-              return (
-                <View key={obj.id} style={styles.answerListView}>
-                  <AnimatedText
-                    style={[
-                      styles.answerList,
-                      {
-                        fontSize: setFontSize(obj.userInput.length),
-                        position: 'absolute',
-                        alignSelf: 'center',
-                        opacity: fadeOutColorChange,
-                      },
-                    ]}
-                    numberOfLines={1}
-                  >
-                    {obj.userInput}
-                  </AnimatedText>
-                  <AnimatedText
-                    style={[
-                      styles.answerList,
-                      {
-                        fontSize: setFontSize(obj.userInput.length),
-                        color: setGuessColor(obj.userInput),
-                        opacity: fadeInColorChange,
-                      },
-                    ]}
-                    numberOfLines={1}
-                  >
-                    {obj.userInput}
-                  </AnimatedText>
-                </View>
-              );
-            }
-            return (
-              <View key={obj.id} style={styles.answerListView}>
-                <AnimatedText
-                  style={[
-                    styles.answerList,
-                    {
-                      fontSize: setFontSize(obj.userInput.length),
-                      color: setGuessColor(obj.userInput),
-                    },
-                  ]}
-                  numberOfLines={1}
-                >
-                  {obj.userInput}
-                </AnimatedText>
-              </View>
-            );
-          } else {
-            return (
-              <View key={obj.id} style={styles.answerListView}>
-                <AnimatedText
-                  style={[
-                    styles.answerList,
-                    {
-                      fontSize: setFontSize(obj.userInput.length),
-                      position: 'absolute',
-                      alignSelf: 'center',
-                      opacity: fadeOutColorChange,
-                    },
-                  ]}
-                  numberOfLines={1}
-                >
-                  {obj.userInput}
-                </AnimatedText>
-                <AnimatedText
-                  style={[
-                    styles.answerList,
-                    {
-                      fontSize: setFontSize(obj.userInput.length),
-                      color: setGuessColor(obj.userInput),
-                      opacity: fadeInColorChange,
-                    },
-                  ]}
-                  numberOfLines={1}
-                >
-                  {obj.userInput}
-                </AnimatedText>
-              </View>
-            );
-          }
-        }
+  const showAnswers = useCallback(
+    (answer: Answer, userInput: string, guesses: number, inputRef: Props['textInputRef']) => {
+      return answer.map((obj, index) => {
+        return obj.userInput.length === 0 && index === guesses ? (
+          <View key={obj.id} style={styles.answerListView}>
+            <Text
+              style={[styles.answerList, { fontSize: setFontSize(userInput.length) }]}
+              numberOfLines={1}
+            >
+              {userInput}
+            </Text>
+          </View>
+        ) : (
+          <View key={obj.id} style={styles.answerListView}>
+            <TextColorChangeAnimation
+              color={setGuessColor(obj.userInput)}
+              input={obj.userInput}
+              inputRef={inputRef}
+            />
+          </View>
+        );
       });
-
-      return toDisplay;
     },
-    [props.userInput]
+    [userInput]
   );
-
-  useEffect(() => {
-    colorChangeOut();
-    setTimeout(() => colorChangeIn(), 1000);
-  }, [props.userInput]);
 
   return (
     <View style={styles.answerContainer}>
-      {showGameBoard(props.answer, props.userInput, props.guesses)}
-      {showWinMessage(props.result, props.answer, props.guesses)}
+      {showAnswers(answer, userInput, guesses, textInputRef)}
+      {showWinMessage(result, answer, guesses)}
     </View>
   );
 };

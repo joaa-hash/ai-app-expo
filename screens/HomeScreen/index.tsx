@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { TextInput, Platform, TouchableWithoutFeedback, Animated } from 'react-native';
+import { TextInput, Platform, TouchableWithoutFeedback } from 'react-native';
 import {
-  modalIn,
-  modalOut,
-  modalFadeIn,
-  modalFadeOut,
   checkStyles,
   checkAnswer,
   getTypeText,
@@ -21,9 +17,19 @@ import { ResultObject, Answer } from '../../types';
 import { Details } from '../Information/index';
 import { styles } from './styles';
 import * as Result from '../../hooks/temp.json';
-import { View, ScrollView, Text, SubText, AnimatedView } from '../../components/Theme/Themed';
+import { View, ScrollView, Text, SubText } from '../../components/Theme/Themed';
+import Animated, {
+  Easing,
+  FadeIn,
+  FadeOut,
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
+import useColorScheme from '../../hooks/useColorScheme';
+import Colors from '../../constants/Colors';
 
 export const Home: React.FC = () => {
+  const theme = useColorScheme();
   const [modalState, setModalState] = useState(false);
   const [result, setResult] = useState<ResultObject>(InitialResultObject);
   const [userInput, setUserInput] = useState('');
@@ -58,10 +64,17 @@ export const Home: React.FC = () => {
     }
   }, [answer]);
 
-  useEffect(() => {
-    modalIn();
-    modalOut();
-  }, [modalState, result]);
+  const config = {
+    duration: 500,
+    easing: Easing.ease,
+  };
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const opacity = withTiming(modalState ? 0.7 : 1, config);
+    return {
+      opacity,
+    };
+  });
 
   return (
     <Container>
@@ -72,11 +85,14 @@ export const Home: React.FC = () => {
           textInputRef.current?.focus();
         }}
       >
-        <AnimatedView
+        <Animated.View
           style={[
             checkStyles(styles.containerMobile, styles.containerWeb, Platform),
-            { opacity: modalState === true ? modalFadeIn : modalFadeOut },
+            animatedStyle,
+            { backgroundColor: Colors[theme]['background'] },
           ]}
+          // entering={FadeIn}
+          // exiting={FadeIn}
         >
           {Platform.OS === 'web' ? (
             <Header modalState={modalState} setModalState={setModalState} />
@@ -128,10 +144,16 @@ export const Home: React.FC = () => {
                   </SubText>
                 </View>
               </View>
-              <GameBoard answer={answer} userInput={userInput} guesses={guesses} result={result} />
+              <GameBoard
+                answer={answer}
+                userInput={userInput}
+                guesses={guesses}
+                result={result}
+                textInputRef={textInputRef}
+              />
             </View>
           </ScrollView>
-        </AnimatedView>
+        </Animated.View>
       </TouchableWithoutFeedback>
     </Container>
   );

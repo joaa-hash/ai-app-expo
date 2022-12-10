@@ -1,8 +1,23 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, Animated, Pressable, View, Text, TextInput } from 'react-native';
+import { Image, Pressable, View, Text, TextInput } from 'react-native';
+import Animated, {
+  Easing,
+  FadeIn,
+  FadeOut,
+  FadingTransition,
+  interpolate,
+  RotateInUpLeft,
+  SlideInLeft,
+  SlideOutRight,
+  useAnimatedStyle,
+  useDerivedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { ResultObject } from '../../types';
 import { styles } from './styles';
+import useColorScheme from '../../hooks/useColorScheme';
+import Colors from '../../constants/Colors';
 
 interface Props {
   result: ResultObject;
@@ -11,43 +26,19 @@ interface Props {
   textInputRef: React.RefObject<TextInput>;
 }
 
-export const ImageCarousel: React.FC<{
-  result: ResultObject;
-  guesses: number;
-  checkAnswer: (arg0: ResultObject, arg1: string) => boolean;
-  textInputRef: React.RefObject<TextInput>;
-}> = (props: Props) => {
-  const [imageUrls, setImageUrls] = useState<string[]>([props.result.urls[0].toString()]);
+export const ImageCarousel = ({ result, guesses, checkAnswer, textInputRef }: Props) => {
+  const [imageUrls, setImageUrls] = useState<string[]>([result.urls[0].toString()]);
   const [imageToShow, setImageToShow] = useState(0);
 
   const imageRef = React.createRef<View>();
 
-  const fadeIn = new Animated.Value(0);
-  const fadeOut = new Animated.Value(1);
-
-  const imageChangeIn = () => {
-    Animated.timing(fadeIn, {
-      toValue: 1,
-      duration: 1000,
-      useNativeDriver: false,
-    }).start();
-  };
-
-  const imageChangeOut = () => {
-    Animated.timing(fadeOut, {
-      toValue: 0,
-      duration: 1500,
-      useNativeDriver: false,
-    }).start();
-  };
-
   const getUrls = (obj: ResultObject) => {
     if (obj !== undefined) {
-      if (obj.urls[0] !== undefined && props.guesses === 0) {
+      if (obj.urls[0] !== undefined && guesses === 0) {
         setImageUrls([obj.urls[0].toString()]);
       }
-      if (obj.urls[props.guesses] !== undefined && props.guesses > 0) {
-        setImageUrls([...imageUrls, obj.urls[props.guesses].toString()]);
+      if (obj.urls[guesses] !== undefined && guesses > 0) {
+        setImageUrls([...imageUrls, obj.urls[guesses].toString()]);
       } else {
         return;
       }
@@ -56,67 +47,57 @@ export const ImageCarousel: React.FC<{
     }
   };
 
-  const showImage = useCallback(
-    (index: number, uris: string[]) => {
-      if (props.guesses === 0) {
-        return (
-          <View>
-            <Image style={[styles.image]} source={{ width: 300, height: 300, uri: uris[index] }} />
-          </View>
-        );
-      }
-      if (props.guesses >= 1) {
-        if (imageToShow === 0) {
-          return (
-            <View>
-              <Animated.Image
-                style={[
-                  styles.image,
-                  { position: 'absolute', alignSelf: 'center', opacity: fadeOut },
-                ]}
-                source={{ width: 300, height: 300, uri: uris[uris.length - 1] }}
-              />
-              <Animated.Image
-                style={[styles.image, { opacity: fadeIn }]}
-                source={{ width: 300, height: 300, uri: uris[index] }}
-              />
-            </View>
-          );
-        } else {
-          return (
-            <View>
-              <Animated.Image
-                style={[
-                  styles.image,
-                  { position: 'absolute', alignSelf: 'center', opacity: fadeOut },
-                ]}
-                source={{ width: 300, height: 300, uri: uris[index - 1] }}
-              />
-              <Animated.Image
-                style={[styles.image, { opacity: fadeIn }]}
-                source={{ width: 300, height: 300, uri: uris[index] }}
-              />
-            </View>
-          );
-        }
-      } else {
-        return (
-          <View>
-            <Animated.Image
-              style={[
-                styles.image,
-                { position: 'absolute', alignSelf: 'center', opacity: fadeOut },
-              ]}
-              source={{ width: 300, height: 300, uri: uris[index - 1] }}
-            />
-            <Animated.Image
-              style={[styles.image, { opacity: fadeIn }]}
-              source={{ width: 300, height: 300, uri: uris[index] }}
-            />
-          </View>
-        );
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+  const ShowImage = useCallback(
+    ({ imageToShow, uris }: { imageToShow: number; uris: string[] }) => {
+      const theme = useColorScheme();
+      const AnimatedImage = Animated.createAnimatedComponent(Image);
+      const config = {
+        duration: 500,
+        easing: Easing.ease,
+      };
+
+      // const progress = useDerivedValue(() => {
+      //   return withTiming(imageToShow === imageToShow ? 1 : 0, config);
+      // });
+
+      const animatedIn = useAnimatedStyle(() => {
+        const opacity = withTiming(imageToShow === imageToShow ? 1 : 0, config);
+
+        return {
+          opacity,
+        };
+      });
+
+      const animatedOut = useAnimatedStyle(() => {
+        const opacity = withTiming(imageToShow === imageToShow ? 0 : 1, config);
+
+        return {
+          opacity,
+        };
+      });
+
+      return (
+        <Animated.View
+          style={[{ width: 300, height: 300 }]}
+          // entering={SlideInLeft}
+          // exiting={SlideOutRight}
+        >
+          <AnimatedImage
+            // entering={SlideInLeft.delay(300).springify()}
+            style={[
+              { borderColor: Colors[theme]['border'], position: 'absolute', alignSelf: 'center' },
+              styles.image,
+              animatedOut,
+            ]}
+            source={{ width: 300, height: 300, uri: uris[imageToShow - 1] }}
+          />
+          <AnimatedImage
+            // entering={SlideInLeft.delay(300).springify()}
+            style={[{ borderColor: Colors[theme]['border'] }, styles.image, animatedIn]}
+            source={{ width: 300, height: 300, uri: uris[imageToShow] }}
+          />
+        </Animated.View>
+      );
     },
     [imageToShow]
   );
@@ -127,10 +108,8 @@ export const ImageCarousel: React.FC<{
       const toDisplay = imageUrls.map((_value, index) => {
         if (index === imageIndex) {
           return (
-            <View style={styles.imageIndex}>
-              <Text style={{ fontSize: 20, color: '#ffffff' }} key={index}>
-                ●
-              </Text>
+            <View key={index} style={styles.imageIndex}>
+              <Text style={{ fontSize: 20, color: '#ffffff' }}>●</Text>
             </View>
           );
         }
@@ -138,28 +117,26 @@ export const ImageCarousel: React.FC<{
           if (index < imageIndex) {
             return (
               <Pressable
+                key={index}
                 style={styles.imageIndex}
                 onPress={() => {
                   setImageToShow(index);
                 }}
               >
-                <Text style={{ fontSize: 18, color: '#9c9c9c91' }} key={index}>
-                  ○
-                </Text>
+                <Text style={{ fontSize: 18, color: '#9c9c9c91' }}>○</Text>
               </Pressable>
             );
           }
           if (index > imageIndex) {
             return (
               <Pressable
+                key={index}
                 style={styles.imageIndex}
                 onPress={() => {
                   setImageToShow(index);
                 }}
               >
-                <Text style={{ fontSize: 18, color: '#9c9c9c91' }} key={index}>
-                  ○
-                </Text>
+                <Text style={{ fontSize: 18, color: '#9c9c9c91' }}>○</Text>
               </Pressable>
             );
           } else {
@@ -187,27 +164,18 @@ export const ImageCarousel: React.FC<{
       });
 
       return toDisplay;
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [imageToShow]
   );
 
   useEffect(() => {
-    getUrls(props.result);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.result, props.guesses]);
-
-  useEffect(() => {
-    imageChangeOut();
-    imageChangeIn();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imageToShow]);
+    getUrls(result);
+  }, [result, guesses]);
 
   useEffect(() => {
     imageUrls.length >= imageToShow && imageUrls.length !== imageToShow + 1
       ? setImageToShow(imageToShow + 1)
       : setImageToShow(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageUrls]);
 
   return (
@@ -217,7 +185,7 @@ export const ImageCarousel: React.FC<{
         style={styles.imageContainer}
         onPress={() => {
           imageRef.current?.blur();
-          props.textInputRef.current?.focus();
+          textInputRef.current?.focus();
           if (imageUrls.length >= 1) {
             imageUrls.length >= imageToShow + 1 && imageUrls.length !== imageToShow + 1
               ? setImageToShow(imageToShow + 1)
@@ -225,7 +193,7 @@ export const ImageCarousel: React.FC<{
           }
         }}
       >
-        {showImage(imageToShow, imageUrls)}
+        <ShowImage key={imageToShow} imageToShow={imageToShow} uris={imageUrls} />
       </Pressable>
       <View style={styles.imageIndex}>{showImageIndex(imageToShow)}</View>
       <TextInput style={{ width: 0, height: 0 }} />

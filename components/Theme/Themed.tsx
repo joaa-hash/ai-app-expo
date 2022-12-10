@@ -1,15 +1,11 @@
-/**
- * Learn more about Light and Dark modes:
- * https://docs.expo.io/guides/color-schemes/
- */
-
 import {
   Text as DefaultText,
   TextInput as DefaultTextInput,
   View as DefaultView,
   ScrollView as DefaultScrollView,
-  Animated as DefaultAnimated,
+  ImageProps,
 } from 'react-native';
+import Animated, { AnimatedStyleProp, AnimateProps } from 'react-native-reanimated';
 
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
@@ -37,6 +33,9 @@ export type TextProps = ThemeProps & DefaultText['props'];
 export type TextInputProps = ThemeProps & DefaultTextInput['props'];
 export type ViewProps = ThemeProps & DefaultView['props'];
 export type ScrollViewProps = ThemeProps & DefaultScrollView['props'];
+export type AnimatedTextProps = ThemeProps & DefaultText['props'];
+export type AnimatedViewProps = ThemeProps & AnimateProps<ViewProps>;
+export type AnimatedImageProps = ThemeProps & AnimateProps<ImageProps>;
 
 export function Text(props: TextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
@@ -69,21 +68,19 @@ export function View(props: ViewProps) {
 
 export function ScrollView(props: ScrollViewProps) {
   const { style, ...otherProps } = props;
-
   return <DefaultScrollView style={[style]} {...otherProps} />;
 }
 
-export function AnimatedText(props: { [x: string]: any; style: any }) {
+export function AnimatedText(props: AnimatedTextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
-  return <DefaultAnimated.Text style={[{ color }, style]} {...otherProps} />;
+  return <Animated.Text style={[{ color }, style]} {...otherProps} />;
 }
 
-export function AnimatedView(props: { [x: string]: any; style: any }) {
+export function AnimatedImage(props: AnimatedImageProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
   const borderColor = useThemeColor({ light: lightColor, dark: darkColor }, 'border');
 
-  return <DefaultAnimated.View style={[{ backgroundColor, borderColor }, style]} {...otherProps} />;
+  return <Animated.Image style={[{ borderColor }, style]} {...otherProps} />;
 }

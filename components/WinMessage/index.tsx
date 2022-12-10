@@ -1,21 +1,30 @@
 import React from 'react';
-import { Animated, StyleSheet } from 'react-native';
-import { checkAnswer, fadeInColorChange } from '../../hooks';
+import { Easing, StyleSheet } from 'react-native';
+import { useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import { checkAnswer } from '../../hooks';
 import { Answer, ResultObject } from '../../types';
+import { TextGeneralAnimation } from '../Animations/TextGeneralAnimation';
+import { AnimatedText } from '../Theme/Themed';
 
 export const showWinMessage = (result: ResultObject, answer: Answer, guesses: number) => {
-  if (guesses === 0) {
-    return <></>;
-  }
-  if (checkAnswer(result, answer[guesses - 1].userInput) === true) {
-    return (
-      <Animated.Text style={[styles.infoText, { opacity: fadeInColorChange }]}>
-        Nice Job!
-      </Animated.Text>
-    );
-  } else {
-    return <></>;
-  }
+  const checkedAnswer = guesses > 0 ? checkAnswer(result, answer[guesses - 1].userInput) : false;
+  const config = {
+    duration: 700,
+    easing: Easing.ease,
+  };
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const opacity = withTiming(checkedAnswer ? 1 : 0, config);
+    return {
+      opacity,
+    };
+  });
+
+  return guesses !== 0 && checkedAnswer ? (
+    <AnimatedText style={[styles.infoText, animatedStyle]}>Nice Job!</AnimatedText>
+  ) : (
+    <></>
+  );
 };
 
 const styles = StyleSheet.create({
