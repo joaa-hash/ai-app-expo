@@ -9,7 +9,7 @@ import { AnimatedText } from '../Theme/Themed';
 export const showWinMessage = (result: ResultObject, answer: Answer, guesses: number) => {
   const checkedAnswer = guesses > 0 ? checkAnswer(result, answer[guesses - 1].userInput) : false;
   const config = {
-    duration: 700,
+    duration: 1000,
     easing: Easing.ease,
   };
 

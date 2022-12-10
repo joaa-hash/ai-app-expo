@@ -30,7 +30,8 @@ export const ImageCarousel = ({ result, guesses, checkAnswer, textInputRef }: Pr
   const [imageUrls, setImageUrls] = useState<string[]>([result.urls[0].toString()]);
   const [imageToShow, setImageToShow] = useState(0);
 
-  const imageRef = React.createRef<View>();
+  const imageIndexRef = React.createRef<View>();
+  const imageRef = React.createRef<Animated.Image>();
 
   const getUrls = (obj: ResultObject) => {
     if (obj !== undefined) {
@@ -47,60 +48,74 @@ export const ImageCarousel = ({ result, guesses, checkAnswer, textInputRef }: Pr
     }
   };
 
-  const ShowImage = useCallback(
-    ({ imageToShow, uris }: { imageToShow: number; uris: string[] }) => {
-      const theme = useColorScheme();
-      const AnimatedImage = Animated.createAnimatedComponent(Image);
-      const config = {
-        duration: 500,
-        easing: Easing.ease,
-      };
+  const ShowImage = ({ imageToShow, uris }: { imageToShow: number; uris: string[] }) => {
+    const theme = useColorScheme();
+    const AnimatedImage = Animated.createAnimatedComponent(Image);
+    const config = {
+      duration: 500,
+      easing: Easing.ease,
+    };
 
-      // const progress = useDerivedValue(() => {
-      //   return withTiming(imageToShow === imageToShow ? 1 : 0, config);
-      // });
+    // const progress = useDerivedValue(() => {
+    //   return withTiming(imageToShow === imageToShow ? 1 : 0, config);
+    // });
 
-      const animatedIn = useAnimatedStyle(() => {
-        const opacity = withTiming(imageToShow === imageToShow ? 1 : 0, config);
+    // const animatedIn = useAnimatedStyle(() => {
+    //   const opacity = withTiming(newImage ?  : 1, config);
 
-        return {
-          opacity,
-        };
-      });
+    //   return {
+    //     opacity,
+    //   };
+    // });
 
-      const animatedOut = useAnimatedStyle(() => {
-        const opacity = withTiming(imageToShow === imageToShow ? 0 : 1, config);
-
-        return {
-          opacity,
-        };
-      });
-
-      return (
-        <Animated.View
-          style={[{ width: 300, height: 300 }]}
-          // entering={SlideInLeft}
-          // exiting={SlideOutRight}
-        >
-          <AnimatedImage
-            // entering={SlideInLeft.delay(300).springify()}
-            style={[
-              { borderColor: Colors[theme]['border'], position: 'absolute', alignSelf: 'center' },
-              styles.image,
-              animatedOut,
-            ]}
-            source={{ width: 300, height: 300, uri: uris[imageToShow - 1] }}
-          />
-          <AnimatedImage
-            // entering={SlideInLeft.delay(300).springify()}
-            style={[{ borderColor: Colors[theme]['border'] }, styles.image, animatedIn]}
-            source={{ width: 300, height: 300, uri: uris[imageToShow] }}
-          />
-        </Animated.View>
+    const animatedOut = useAnimatedStyle(() => {
+      const opacity = withTiming(
+        imageRef.current?.componentDidUpdate || guesses === 0 ? 1 : 0,
+        config
       );
-    },
-    [imageToShow]
-  );
+
+      return {
+        opacity,
+      };
+    });
+
+    return (
+      // <Animated.View
+      //   style={animatedOut}
+      //   // entering={SlideInLeft.delay(300).springify()}
+      //   // exiting={SlideOutRight}
+      // >
+      <Animated.Image
+        ref={imageRef}
+        style={[styles.image, animatedOut, { borderColor: Colors[theme]['border'] }]}
+        source={{ width: 300, height: 300, uri: uris[imageToShow] }}
+      />
+      // </Animated.View>
+    );
+    // return (
+
+    //   <Animated.View
+    //     style={[animatedIn, { width: 300, height: 300 }]}
+    //     // entering={SlideInLeft}
+    //     // exiting={SlideOutRight}
+    //   >
+    //     <AnimatedImage
+    //       // entering={SlideInLeft.delay(300).springify()}
+    //       style={[
+    //         { borderColor: Colors[theme]['border'], position: 'absolute', alignSelf: 'center' },
+    //         styles.image,
+    //         animatedOut,
+    //       ]}
+    //       source={{ width: 300, height: 300, uri: uris[imageToShow - 1] }}
+    //     />
+    //     <AnimatedImage
+    //       // entering={SlideInLeft.delay(300).springify()}
+    //       style={[{ borderColor: Colors[theme]['border'] }, styles.image, animatedIn]}
+    //       source={{ width: 300, height: 300, uri: uris[imageToShow] }}
+    //     />
+    //   </Animated.View>
+    // );
+  };
 
   const showImageIndex = useCallback(
     (imageIndex: number) => {
@@ -181,10 +196,10 @@ export const ImageCarousel = ({ result, guesses, checkAnswer, textInputRef }: Pr
   return (
     <View>
       <Pressable
-        ref={imageRef}
+        ref={imageIndexRef}
         style={styles.imageContainer}
         onPress={() => {
-          imageRef.current?.blur();
+          imageIndexRef.current?.blur();
           textInputRef.current?.focus();
           if (imageUrls.length >= 1) {
             imageUrls.length >= imageToShow + 1 && imageUrls.length !== imageToShow + 1
@@ -193,7 +208,7 @@ export const ImageCarousel = ({ result, guesses, checkAnswer, textInputRef }: Pr
           }
         }}
       >
-        <ShowImage key={imageToShow} imageToShow={imageToShow} uris={imageUrls} />
+        <ShowImage imageToShow={imageToShow} uris={imageUrls} />
       </Pressable>
       <View style={styles.imageIndex}>{showImageIndex(imageToShow)}</View>
       <TextInput style={{ width: 0, height: 0 }} />

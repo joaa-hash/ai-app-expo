@@ -1,70 +1,23 @@
 import React, { useEffect } from 'react';
-import { Animated, Platform, PlatformAndroidStatic, PlatformIOSStatic, PlatformMacOSStatic, PlatformWebStatic, PlatformWindowsOSStatic, Pressable, Text, View } from 'react-native';
+import { Platform, Pressable, Text, View } from 'react-native';
+import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { StatsContainer } from '../../components/StatsContainer';
+import { PlatformTypes, ResultObject } from '../../types';
 import { styles } from './styles';
 
 interface Props {
   modalState: boolean,
   setModalState: React.Dispatch<React.SetStateAction<boolean>>,
-  result: resultObj,
+  result: ResultObject,
 }
 
-type resultObj = {
-  id: number;
-  type: string[];
-  artist: string;
-  album: string;
-  genre: string;
-  song: string;
-  keywords: string[];
-  correctResponse: string[];
-  urls: string[];
-}
-
-export const Details: React.FC<{ result: resultObj, modalState: boolean, setModalState: React.Dispatch<React.SetStateAction<boolean>> }> = (props: Props) => {
-
-  const modalFadeIn = new Animated.Value(0);
-  const modalFadeOut = new Animated.Value(1);
-
-  const modalIn = () => {
-    Animated.timing(
-      modalFadeIn,
-      {
-        toValue: 1,
-        duration: 800,
-        useNativeDriver: false,
-      }
-    ).start();
-  };
-
-  const modalOut = () => {
-    Animated.timing(
-      modalFadeOut,
-      {
-        toValue: 0,
-        duration: 800,
-        useNativeDriver: false,
-      }
-    ).start();
-  };
-
-  const modalStart = () => {
-    Animated.timing(
-      modalFadeOut,
-      {
-        toValue: 0,
-        duration: 0,
-        useNativeDriver: false,
-      }
-    ).start();
-  };
-
-  const closeModalButton = (platform: PlatformIOSStatic | PlatformAndroidStatic | PlatformWindowsOSStatic | PlatformMacOSStatic | PlatformWebStatic) => {
+export const Information = ({result, modalState, setModalState}: Props) => {
+  const closeModalButton = (platform: PlatformTypes) => {
     return platform.OS === 'web'
       ? <Pressable
         style={styles.closeButton}
         onPress={() => {
-          return props.modalState === true ? props.setModalState(false) : props.setModalState(true);
+          return modalState === true ? setModalState(false) : setModalState(true);
         }}
       >
         <Text style={styles.closeButtonText}>✖︎</Text>
@@ -72,20 +25,20 @@ export const Details: React.FC<{ result: resultObj, modalState: boolean, setModa
       : <></>;
   };
 
-  useEffect(() => {
-    modalIn();
-    modalOut();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.modalState]);
+  const config = {
+    duration: 500,
+    easing: Easing.ease,
+  };
 
-  useEffect(() => {
-    modalStart();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.result]);
+  const animatedStyle = useAnimatedStyle(() => {
+    const opacity = withTiming(modalState ? 1 : 0, config);
+    return {
+      opacity,
+    };
+  });
 
   return (
-    // eslint-disable-next-line react-native/no-inline-styles
-    <Animated.View style={[styles.container, { opacity: props.modalState === true ? modalFadeIn : modalFadeOut, zIndex: props.modalState ? 1 : 0 }]}>
+    <Animated.View style={[styles.container, animatedStyle, { zIndex: modalState ? 1 : 0 }]}>
       {closeModalButton(Platform)}
       <Text style={styles.text}>Details Screen</Text>
       <StatsContainer />

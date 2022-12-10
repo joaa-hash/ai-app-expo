@@ -14,7 +14,7 @@ import { ImageCarousel } from '../../components/ImageCarousel';
 import { InitialResultObject } from '../../models/InitialResultObject';
 import { InitialAnswerState } from '../../models/InitialAnswerState';
 import { ResultObject, Answer } from '../../types';
-import { Details } from '../Information/index';
+import { Information } from '../Information/index';
 import { styles } from './styles';
 import * as Result from '../../hooks/temp.json';
 import { View, ScrollView, Text, SubText } from '../../components/Theme/Themed';
@@ -70,7 +70,7 @@ export const Home: React.FC = () => {
   };
 
   const animatedStyle = useAnimatedStyle(() => {
-    const opacity = withTiming(modalState ? 0.7 : 1, config);
+    const opacity = withTiming(modalState ? 0.1 : 1, config);
     return {
       opacity,
     };
@@ -78,7 +78,7 @@ export const Home: React.FC = () => {
 
   return (
     <Container>
-      <Details result={result} modalState={modalState} setModalState={setModalState} />
+      <Information result={result} modalState={modalState} setModalState={setModalState} />
       <TouchableWithoutFeedback
         onPress={() => {
           setModalState(false);

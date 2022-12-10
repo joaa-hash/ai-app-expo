@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
+    "watchman:clear": "watchman watch-del '/Users/ian/code/react-native/triv-ai' ; watchman watch-project '/Users/ian/code/react-native/triv-ai'",
+    "start": "npm run watchman:clear && expo start --clear",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -66,7 +67,8 @@
     "minimatch": "^3.0.5",
     "node-forge": "^1.0.3",
     "nth-check": "^2.0.1",
-    "shell-quote": "^1.7.3"
+    "shell-quote": "^1.7.3",
+    "qs": "6.7.3"
   },
   "private": true,
   "engines": {
