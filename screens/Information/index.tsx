@@ -2,12 +2,12 @@ import React from 'react';
 import { Platform, Pressable, Text, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { StatsContainer } from '../../components/StatsContainer';
-import { PlatformTypes, ResultObject } from '../../types';
+import { PlatformTypes, ResultObject, SetBooleanState } from '../../types';
 import { styles } from './styles';
 
 interface Props {
   settingsModalState: boolean;
-  setSettingsModalState: React.Dispatch<React.SetStateAction<boolean>>;
+  setSettingsModalState: SetBooleanState;
   result: ResultObject;
 }
 

@@ -72,17 +72,20 @@ export type Profile = {
 
 export type AuthTypes = {
   email: string;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  setEmail: SetStringState;
   password: string;
-  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  setPassword: SetStringState;
   verifyPassword: string;
-  setVerifyPassword: React.Dispatch<React.SetStateAction<string>>;
+  setVerifyPassword: SetStringState;
   profile: Profile;
   setProfile: React.Dispatch<React.SetStateAction<Profile>>;
   authModalState: boolean;
-  setAuthModalState: React.Dispatch<React.SetStateAction<boolean>>;
+  setAuthModalState: SetBooleanState;
   register: boolean;
-  setRegister: React.Dispatch<React.SetStateAction<boolean>>;
+  setRegister: SetBooleanState;
   login: boolean;
-  setLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  setLogin: SetBooleanState;
 };
+
+export type SetBooleanState = React.Dispatch<React.SetStateAction<boolean>>;
+export type SetStringState = React.Dispatch<React.SetStateAction<string>>;

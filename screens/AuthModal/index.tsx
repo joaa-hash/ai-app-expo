@@ -1,22 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-native';
-import { auth, db } from '../../firebase';
-import { collection, addDoc } from 'firebase/firestore';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-} from 'firebase/auth';
+import { auth } from '../../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import { BaseProfile } from '../../constants/BaseProfile';
 import Login from '../../components/Authentication/Login';
 import Signup from '../../components/Authentication/SignUp';
-import { validatePassword, handleLogin, handleSignUp, checkRequired } from '../../hooks';
-import { AuthTypes } from '../../types';
+import { checkRequired } from '../../hooks';
+import { AuthTypes, SetBooleanState } from '../../types';
 
 type Props = {
   authModalState: boolean;
-  setAuthModalState: React.Dispatch<React.SetStateAction<boolean>>;
+  setAuthModalState: SetBooleanState;
   register: AuthTypes['register'];
   login: AuthTypes['login'];
   setLogin: AuthTypes['setLogin'];
@@ -53,7 +48,7 @@ export default function AuthModal({
 
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       visible={authModalState}
       onRequestClose={() => {
         setAuthModalState(!authModalState);

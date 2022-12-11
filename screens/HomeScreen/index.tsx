@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextInput, Platform, TouchableWithoutFeedback } from 'react-native';
 import { checkStyles, checkAnswer, disableTextInput, hydrateAnswers } from '../../hooks';
 import { Container } from '../../components';
@@ -16,16 +16,6 @@ import { View, ScrollView, Text, SubText } from '../../components/Theme/Themed';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import useColorScheme from '../../hooks/useColorScheme';
 import Colors from '../../constants/Colors';
-import { BaseProfile } from '../../constants/BaseProfile';
-import { useNavigation } from '@react-navigation/native';
-import {
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
-import { db, auth } from '../../firebase';
-import Signup from '../../components/Authentication/SignUp';
 import AuthModal from '../AuthModal';
 
 export const Home: React.FC = () => {
@@ -149,12 +139,7 @@ export const Home: React.FC = () => {
             />
             <View style={styles.triviaContent}>
               <View style={styles.aiHintContainer}>
-                <ImageCarousel
-                  textInputRef={textInputRef}
-                  result={result}
-                  guesses={guesses}
-                  checkAnswer={checkAnswer}
-                />
+                <ImageCarousel textInputRef={textInputRef} result={result} guesses={guesses} />
                 <View style={styles.hintInfo}>
                   <Text style={styles.infoText}>
                     <Text style={[styles.infoText, { fontWeight: '700', fontSize: 28 }]}>

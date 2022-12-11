@@ -8,7 +8,6 @@ import Colors from '../../constants/Colors';
 interface Props {
   result: ResultObject;
   guesses: number;
-  checkAnswer: (arg0: ResultObject, arg1: string) => boolean;
   textInputRef: React.RefObject<TextInput>;
 }
 

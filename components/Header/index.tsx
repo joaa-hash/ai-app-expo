@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Pressable } from 'react-native';
-import { AuthTypes } from '../../types';
+import { AuthTypes, SetBooleanState } from '../../types';
 import { View, Text } from '../Theme/Themed';
 import { styles } from './styles';
 
 interface Props {
   settingsModalState: boolean;
-  setSettingsModalState: React.Dispatch<React.SetStateAction<boolean>>;
+  setSettingsModalState: SetBooleanState;
   authModalState: boolean;
-  setAuthModalState: React.Dispatch<React.SetStateAction<boolean>>;
+  setAuthModalState: SetBooleanState;
   login: AuthTypes['login'];
   setLogin: AuthTypes['setLogin'];
   register: AuthTypes['register'];
