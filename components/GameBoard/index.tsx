@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { View, Text } from '../Theme/Themed';
 import { Answer, ResultObject } from '../../types';
 import { styles } from './styles';

@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { useCallback, useEffect, useState } from 'react';
 import { Image, Pressable, View, Text, TextInput, Animated } from 'react-native';
 import { ResultObject } from '../../types';

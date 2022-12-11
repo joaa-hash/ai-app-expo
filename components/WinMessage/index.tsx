@@ -3,7 +3,6 @@ import { Easing, StyleSheet } from 'react-native';
 import { useAnimatedStyle, withDelay, withTiming } from 'react-native-reanimated';
 import { checkAnswer } from '../../hooks';
 import { Answer, ResultObject } from '../../types';
-import { TextGeneralAnimation } from '../Animations/TextGeneralAnimation';
 import { AnimatedText } from '../Theme/Themed';
 
 export const showWinMessage = (result: ResultObject, answer: Answer, guesses: number) => {

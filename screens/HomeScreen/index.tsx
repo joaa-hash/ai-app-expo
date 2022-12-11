@@ -18,13 +18,7 @@ import { Information } from '../Information/index';
 import { styles } from './styles';
 import * as Result from '../../hooks/temp.json';
 import { View, ScrollView, Text, SubText } from '../../components/Theme/Themed';
-import Animated, {
-  Easing,
-  FadeIn,
-  FadeOut,
-  useAnimatedStyle,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import useColorScheme from '../../hooks/useColorScheme';
 import Colors from '../../constants/Colors';
 

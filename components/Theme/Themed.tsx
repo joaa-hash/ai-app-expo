@@ -5,7 +5,7 @@ import {
   ScrollView as DefaultScrollView,
   ImageProps,
 } from 'react-native';
-import Animated, { AnimatedStyleProp, AnimateProps } from 'react-native-reanimated';
+import Animated, { AnimateProps } from 'react-native-reanimated';
 
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
