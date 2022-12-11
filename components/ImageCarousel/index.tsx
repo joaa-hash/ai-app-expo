@@ -1,19 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, Pressable, View, Text, TextInput } from 'react-native';
-import Animated, {
-  Easing,
-  FadeIn,
-  FadeOut,
-  FadingTransition,
-  interpolate,
-  RotateInUpLeft,
-  SlideInLeft,
-  SlideOutRight,
-  useAnimatedStyle,
-  useDerivedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { Image, Pressable, View, Text, TextInput, Animated } from 'react-native';
 import { ResultObject } from '../../types';
 import { styles } from './styles';
 import useColorScheme from '../../hooks/useColorScheme';
@@ -29,9 +16,9 @@ interface Props {
 export const ImageCarousel = ({ result, guesses, checkAnswer, textInputRef }: Props) => {
   const [imageUrls, setImageUrls] = useState<string[]>([result.urls[0].toString()]);
   const [imageToShow, setImageToShow] = useState(0);
+  const theme = useColorScheme();
 
   const imageIndexRef = React.createRef<View>();
-  const imageRef = React.createRef<Animated.Image>();
 
   const getUrls = (obj: ResultObject) => {
     if (obj !== undefined) {
@@ -48,85 +35,118 @@ export const ImageCarousel = ({ result, guesses, checkAnswer, textInputRef }: Pr
     }
   };
 
-  const ShowImage = ({ imageToShow, uris }: { imageToShow: number; uris: string[] }) => {
-    const theme = useColorScheme();
-    const AnimatedImage = Animated.createAnimatedComponent(Image);
-    const config = {
-      duration: 500,
-      easing: Easing.ease,
-    };
+  const fadeIn = new Animated.Value(0);
+  const fadeOut = new Animated.Value(1);
 
-    // const progress = useDerivedValue(() => {
-    //   return withTiming(imageToShow === imageToShow ? 1 : 0, config);
-    // });
-
-    const animatedIn = useAnimatedStyle(() => {
-      const opacity = withTiming(imageToShow === uris.indexOf(uris[imageToShow]) ? 1 : 0, config);
-
-      return {
-        opacity,
-      };
-    });
-
-    const animatedOut = useAnimatedStyle(() => {
-      const opacity = withTiming(
-        imageToShow === uris.indexOf(uris[imageToShow - 1]) ? 1 : 0,
-        config
-      );
-
-      return {
-        opacity,
-      };
-    });
-
-    return (
-      // <Animated.View
-      //   style={animatedOut}
-      //   // entering={SlideInLeft.delay(300).springify()}
-      //   // exiting={SlideOutRight}
-      // >
-      <View>
-        <Animated.Image
-          ref={imageRef}
-          style={[
-            styles.image,
-            animatedIn,
-            { borderColor: Colors[theme]['border'], position: 'absolute', alignSelf: 'center' },
-          ]}
-          source={{ width: 300, height: 300, uri: uris[imageToShow - 1] }}
-        />
-        <Animated.Image
-          ref={imageRef}
-          style={[styles.image, animatedIn, { borderColor: Colors[theme]['border'] }]}
-          source={{ width: 300, height: 300, uri: uris[imageToShow] }}
-        />
-      </View>
-      // </Animated.View>
-    );
-    // return (
-
-    //   <Animated.View
-    //     style={[animatedIn, { width: 300, height: 300 }]}
-    //     // entering={SlideInLeft}
-    //     // exiting={SlideOutRight}
-    //   >
-    //     <AnimatedImage
-    //       // entering={SlideInLeft.delay(300).springify()}
-    //       style={[
-    //         { borderColor: Colors[theme]['border'], position: 'absolute', alignSelf: 'center' },
-    //         styles.image,
-    //         animatedOut,
-    //       ]}
-    //       source={{ width: 300, height: 300, uri: uris[imageToShow - 1] }}
-    //     />
-    //     <AnimatedImage
-    //       // entering={SlideInLeft.delay(300).springify()}
-    //       style={[{ borderColor: Colors[theme]['border'] }, styles.image, animatedIn]}
-    //       source={{ width: 300, height: 300, uri: uris[imageToShow] }}
-    //     />
-    //   </Animated.View>
-    // );
+  const imageChangeIn = () => {
+    Animated.timing(fadeIn, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
   };
+
+  const imageChangeOut = () => {
+    Animated.timing(fadeOut, {
+      toValue: 0,
+      duration: 1500,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const showImage = useCallback(
+    (index: number, uris: string[]) => {
+      if (guesses === 0) {
+        return (
+          <View>
+            <Image
+              style={[styles.image, { borderColor: Colors[theme]['border'], borderWidth: 1 }]}
+              source={{ width: 300, height: 300, uri: uris[index] }}
+            />
+          </View>
+        );
+      }
+      if (guesses >= 1) {
+        if (imageToShow === 0) {
+          return (
+            <View>
+              <Animated.Image
+                style={[
+                  styles.image,
+                  {
+                    position: 'absolute',
+                    alignSelf: 'center',
+                    opacity: fadeOut,
+                    borderColor: Colors[theme]['border'],
+                    borderWidth: 1,
+                  },
+                ]}
+                source={{ width: 300, height: 300, uri: uris[uris.length - 1] }}
+              />
+              <Animated.Image
+                style={[
+                  styles.image,
+                  { opacity: fadeIn, borderColor: Colors[theme]['border'], borderWidth: 1 },
+                ]}
+                source={{ width: 300, height: 300, uri: uris[index] }}
+              />
+            </View>
+          );
+        } else {
+          return (
+            <View>
+              <Animated.Image
+                style={[
+                  styles.image,
+                  {
+                    position: 'absolute',
+                    alignSelf: 'center',
+                    opacity: fadeOut,
+                    borderColor: Colors[theme]['border'],
+                    borderWidth: 1,
+                  },
+                ]}
+                source={{ width: 300, height: 300, uri: uris[index - 1] }}
+              />
+              <Animated.Image
+                style={[
+                  styles.image,
+                  { opacity: fadeIn, borderColor: Colors[theme]['border'], borderWidth: 1 },
+                ]}
+                source={{ width: 300, height: 300, uri: uris[index] }}
+              />
+            </View>
+          );
+        }
+      } else {
+        return (
+          <View>
+            <Animated.Image
+              style={[
+                styles.image,
+                {
+                  position: 'absolute',
+                  alignSelf: 'center',
+                  opacity: fadeOut,
+                  borderColor: Colors[theme]['border'],
+                  borderWidth: 1,
+                },
+              ]}
+              source={{ width: 300, height: 300, uri: uris[index - 1] }}
+            />
+            <Animated.Image
+              style={[
+                styles.image,
+                { opacity: fadeIn, borderColor: Colors[theme]['border'], borderWidth: 1 },
+              ]}
+              source={{ width: 300, height: 300, uri: uris[index] }}
+            />
+          </View>
+        );
+      }
+    },
+    [imageToShow]
+  );
 
   const showImageIndex = useCallback(
     (imageIndex: number) => {
@@ -199,6 +219,11 @@ export const ImageCarousel = ({ result, guesses, checkAnswer, textInputRef }: Pr
   }, [result, guesses]);
 
   useEffect(() => {
+    imageChangeOut();
+    imageChangeIn();
+  }, [imageToShow]);
+
+  useEffect(() => {
     imageUrls.length >= imageToShow && imageUrls.length !== imageToShow + 1
       ? setImageToShow(imageToShow + 1)
       : setImageToShow(0);
@@ -208,7 +233,7 @@ export const ImageCarousel = ({ result, guesses, checkAnswer, textInputRef }: Pr
     <View>
       <Pressable
         ref={imageIndexRef}
-        style={styles.imageContainer}
+        style={[styles.imageContainer]}
         onPress={() => {
           imageIndexRef.current?.blur();
           textInputRef.current?.focus();
@@ -219,7 +244,7 @@ export const ImageCarousel = ({ result, guesses, checkAnswer, textInputRef }: Pr
           }
         }}
       >
-        <ShowImage imageToShow={imageToShow} uris={imageUrls} />
+        {showImage(imageToShow, imageUrls)}
       </Pressable>
       <View style={styles.imageIndex}>{showImageIndex(imageToShow)}</View>
       <TextInput style={{ width: 0, height: 0 }} />

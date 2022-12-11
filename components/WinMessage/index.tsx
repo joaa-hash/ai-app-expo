@@ -1,6 +1,6 @@
 import React from 'react';
 import { Easing, StyleSheet } from 'react-native';
-import { useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import { useAnimatedStyle, withDelay, withTiming } from 'react-native-reanimated';
 import { checkAnswer } from '../../hooks';
 import { Answer, ResultObject } from '../../types';
 import { TextGeneralAnimation } from '../Animations/TextGeneralAnimation';
@@ -14,7 +14,7 @@ export const showWinMessage = (result: ResultObject, answer: Answer, guesses: nu
   };
 
   const animatedStyle = useAnimatedStyle(() => {
-    const opacity = withTiming(checkedAnswer ? 1 : 0, config);
+    const opacity = withDelay(1000, withTiming(checkedAnswer ? 1 : 0, config));
     return {
       opacity,
     };
