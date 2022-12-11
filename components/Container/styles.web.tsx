@@ -5,6 +5,5 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
-    backgroundColor: '#090909',
   },
 });

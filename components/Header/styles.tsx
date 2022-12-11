@@ -16,13 +16,47 @@ export const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowRadius: 5,
     shadowOpacity: 0.4,
+    minHeight: 90,
   },
   logo: {
     fontSize: 28,
-    color: '#fff',
+  },
+  iconText: {
+    fontSize: 46,
+    lineHeight: 32,
   },
   text: {
-    fontSize: 40,
-    color: '#fff',
+    fontSize: 16,
+  },
+  utilityContainer: {
+    flexDirection: 'row',
+  },
+  authGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  signUpAuthButton: {
+    marginRight: 30,
+    borderColor: '#5346c4',
+    borderWidth: 3,
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    '&:hover': {
+      borderColor: '#fff',
+    },
+  },
+  logInOutAuthButton: {
+    marginRight: 30,
+    backgroundColor: '#5346c4',
+    borderColor: '#5346c4',
+    borderWidth: 3,
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    '&:hover': {
+      borderColor: '#fff',
+      backgroundColor: '#fff',
+    },
   },
 });

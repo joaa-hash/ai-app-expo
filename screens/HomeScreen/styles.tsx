@@ -30,12 +30,14 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     maxWidth: 800,
-    paddingVertical: 88,
+    paddingVertical: 100,
   },
   typeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'baseline',
+    width: '100%',
   },
   triviaContent: {
     flex: 1,

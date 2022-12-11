@@ -65,3 +65,24 @@ export type Answer = {
   id: number;
   userInput: string;
 }[];
+
+export type Profile = {
+  firstName: string;
+};
+
+export type AuthTypes = {
+  email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  password: string;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  verifyPassword: string;
+  setVerifyPassword: React.Dispatch<React.SetStateAction<string>>;
+  profile: Profile;
+  setProfile: React.Dispatch<React.SetStateAction<Profile>>;
+  authModalState: boolean;
+  setAuthModalState: React.Dispatch<React.SetStateAction<boolean>>;
+  register: boolean;
+  setRegister: React.Dispatch<React.SetStateAction<boolean>>;
+  login: boolean;
+  setLogin: React.Dispatch<React.SetStateAction<boolean>>;
+};

@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { TextInput, Platform, TouchableWithoutFeedback } from 'react-native';
-import {
-  checkStyles,
-  checkAnswer,
-  getTypeText,
-  disableTextInput,
-  hydrateAnswers,
-} from '../../hooks';
+import { checkStyles, checkAnswer, disableTextInput, hydrateAnswers } from '../../hooks';
 import { Container } from '../../components';
 import { Header } from '../../components/Header';
 import { GameBoard } from '../../components/GameBoard';
+import { Category } from '../../components/Category';
 import { ImageCarousel } from '../../components/ImageCarousel';
 import { InitialResultObject } from '../../models/InitialResultObject';
 import { InitialAnswerState } from '../../models/InitialAnswerState';
@@ -21,10 +16,24 @@ import { View, ScrollView, Text, SubText } from '../../components/Theme/Themed';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import useColorScheme from '../../hooks/useColorScheme';
 import Colors from '../../constants/Colors';
+import { BaseProfile } from '../../constants/BaseProfile';
+import { useNavigation } from '@react-navigation/native';
+import {
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
+import { addDoc, collection } from 'firebase/firestore';
+import { db, auth } from '../../firebase';
+import Signup from '../../components/Authentication/SignUp';
+import AuthModal from '../AuthModal';
 
 export const Home: React.FC = () => {
   const theme = useColorScheme();
-  const [modalState, setModalState] = useState(false);
+  const [authModalState, setAuthModalState] = useState(false);
+  const [login, setLogin] = useState(false);
+  const [register, setRegister] = useState(false);
+  const [settingsModalState, setSettingsModalState] = useState(false);
   const [result, setResult] = useState<ResultObject>(InitialResultObject);
   const [userInput, setUserInput] = useState('');
   const [guesses, setGuesses] = useState(0);
@@ -43,7 +52,7 @@ export const Home: React.FC = () => {
   useEffect(() => {
     setResult(Result.result);
     setAnswer(InitialAnswerState);
-    setModalState(false);
+    setSettingsModalState(false);
     setUserInput('');
   }, [result]);
 
@@ -51,7 +60,7 @@ export const Home: React.FC = () => {
     setUserInput('');
     if (guesses > 0 && checkAnswer(result, answer[guesses - 1].userInput) === true) {
       setTimeout(() => {
-        setModalState(true);
+        setSettingsModalState(true);
       }, 2800);
     } else {
       return;
@@ -64,7 +73,7 @@ export const Home: React.FC = () => {
   };
 
   const animatedStyle = useAnimatedStyle(() => {
-    const opacity = withTiming(modalState ? 0.1 : 1, config);
+    const opacity = withTiming(settingsModalState ? 0.1 : 1, config);
     return {
       opacity,
     };
@@ -72,24 +81,44 @@ export const Home: React.FC = () => {
 
   return (
     <Container>
-      <Information result={result} modalState={modalState} setModalState={setModalState} />
+      <Information
+        result={result}
+        settingsModalState={settingsModalState}
+        setSettingsModalState={setSettingsModalState}
+      />
+      <AuthModal
+        setLogin={setLogin}
+        login={login}
+        setRegister={setRegister}
+        register={register}
+        authModalState={authModalState}
+        setAuthModalState={setAuthModalState}
+      />
       <TouchableWithoutFeedback
         onPress={() => {
-          setModalState(false);
+          setSettingsModalState(false);
+          setAuthModalState(false);
           textInputRef.current?.focus();
         }}
       >
         <Animated.View
           style={[
-            checkStyles(styles.containerMobile, styles.containerWeb, Platform),
+            styles.containerMobile,
             animatedStyle,
             { backgroundColor: Colors[theme]['background'] },
           ]}
-          // entering={FadeIn}
-          // exiting={FadeIn}
         >
           {Platform.OS === 'web' ? (
-            <Header modalState={modalState} setModalState={setModalState} />
+            <Header
+              settingsModalState={settingsModalState}
+              setSettingsModalState={setSettingsModalState}
+              authModalState={authModalState}
+              setAuthModalState={setAuthModalState}
+              login={login}
+              setLogin={setLogin}
+              register={register}
+              setRegister={setRegister}
+            />
           ) : (
             <></>
           )}
@@ -98,7 +127,7 @@ export const Home: React.FC = () => {
             style={{ width: '100%' }}
             contentContainerStyle={checkStyles(styles.homePageMobile, styles.homePageWeb, Platform)}
           >
-            <View style={styles.typeContainer}>{getTypeText(result)}</View>
+            <View style={styles.typeContainer}>{Category(result)}</View>
             <TextInput
               editable={disableTextInput(result, answer, guesses)}
               style={styles.input}

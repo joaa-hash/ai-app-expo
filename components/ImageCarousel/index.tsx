@@ -12,7 +12,7 @@ interface Props {
   textInputRef: React.RefObject<TextInput>;
 }
 
-export const ImageCarousel = ({ result, guesses, checkAnswer, textInputRef }: Props) => {
+export const ImageCarousel = ({ result, guesses, textInputRef }: Props) => {
   const [imageUrls, setImageUrls] = useState<string[]>([result.urls[0].toString()]);
   const [imageToShow, setImageToShow] = useState(0);
   const theme = useColorScheme();
@@ -26,12 +26,8 @@ export const ImageCarousel = ({ result, guesses, checkAnswer, textInputRef }: Pr
       }
       if (obj.urls[guesses] !== undefined && guesses > 0) {
         setImageUrls([...imageUrls, obj.urls[guesses].toString()]);
-      } else {
-        return;
-      }
-    } else {
-      return;
-    }
+      } else return;
+    } else return;
   };
 
   const fadeIn = new Animated.Value(0);

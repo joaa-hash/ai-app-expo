@@ -12,7 +12,7 @@ import { ColorSchemeName, Platform, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import Login from '../screens/Login';
+import Login from '../components/Authentication/Login';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/TabOneScreen';
