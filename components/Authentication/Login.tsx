@@ -49,7 +49,7 @@ export default function Login({
       <View style={styles.modalView}>
         <View style={styles.inputContainer}>
           <View style={styles.formInput}>
-            <FormLabel>Email:</FormLabel>
+            <FormLabel style={styles.formLabel}>Email:</FormLabel>
             <TextInput
               value={email}
               onChangeText={(text: string) => setEmail(text)}
@@ -60,7 +60,7 @@ export default function Login({
             />
           </View>
           <View style={styles.formInput}>
-            <FormLabel>Password:</FormLabel>
+            <FormLabel style={styles.formLabel}>Password:</FormLabel>
             <TextInput
               value={password}
               onChangeText={(text: string) => {

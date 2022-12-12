@@ -77,6 +77,7 @@ export const Home: React.FC = () => {
         setSettingsModalState={setSettingsModalState}
       />
       <AuthModal
+        textInputRef={textInputRef}
         setLogin={setLogin}
         login={login}
         setRegister={setRegister}

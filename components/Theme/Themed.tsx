@@ -42,7 +42,12 @@ export function Head(props: TextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'textPrimary');
 
-  return <DefaultText style={[{ color }, ComponentProperties.head, style]} {...otherProps} />;
+  return (
+    <DefaultText
+      style={[{ color, fontWeight: '700' }, ComponentProperties.head, style]}
+      {...otherProps}
+    />
+  );
 }
 
 export function SubHead(props: TextProps) {

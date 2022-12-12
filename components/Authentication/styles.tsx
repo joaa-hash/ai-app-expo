@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     position: 'absolute',
     top: '30%',
+    zIndex: 1,
   },
   modalView: {
     minHeight: 200,
@@ -27,22 +28,26 @@ export const styles = StyleSheet.create({
     elevation: 0,
   },
   credentialContainer: {
-    width: '70%',
+    width: '84%',
+    maxWidth: 400,
     alignItems: 'center',
     justifyContent: 'center',
   },
   input: {
     flex: 1,
   },
+  formLabel: {
+    minWidth: '30%',
+    width: '35%',
+  },
   inputContainer: {
     width: '80%',
-    paddingHorizontal: 28,
   },
   formInput: {
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'center',
-    alignItems: 'flex-end',
+    alignItems: 'baseline',
     paddingVertical: 12,
   },
   buttonContainer: {

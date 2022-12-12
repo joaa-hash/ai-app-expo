@@ -1,7 +1,7 @@
 export default {
   head: {
     fontSize: 44,
-    letterSpacing: 16,
+    letterSpacing: 8,
   },
   subHead: {
     fontSize: 30,
@@ -24,5 +24,6 @@ export default {
     fontSize: 18,
     outlineStyle: 'none',
     borderBottomWidth: 2,
+    paddingBottom: 2,
   },
 };

@@ -30,6 +30,7 @@ export const styles = StyleSheet.create({
     overflow: 'visible',
     marginBottom: 10,
     width: '60%',
+    minWidth: 430,
     shadowColor: '#ffffffac',
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 6,

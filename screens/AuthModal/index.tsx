@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal } from 'react-native';
+import { Modal, TextInput } from 'react-native';
 import { auth } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
@@ -16,6 +16,7 @@ type Props = {
   login: AuthTypes['login'];
   setLogin: AuthTypes['setLogin'];
   setRegister: AuthTypes['setRegister'];
+  textInputRef: React.RefObject<TextInput>;
 };
 
 export default function AuthModal({
@@ -25,6 +26,7 @@ export default function AuthModal({
   login,
   setLogin,
   setRegister,
+  textInputRef,
 }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -51,9 +53,9 @@ export default function AuthModal({
       animationType="fade"
       visible={authModalState}
       onRequestClose={() => {
-        setAuthModalState(!authModalState);
         setLogin(false);
         setRegister(false);
+        setAuthModalState(!authModalState);
       }}
       transparent={true}
     >

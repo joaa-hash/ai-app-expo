@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, Pressable, Animated, TextInput as RNTextInput, View as RNView } from 'react-native';
-import { View, TextPrimary, TextInput } from '../Theme/Themed';
+import { Image, Pressable, Animated, TextInput, View as RNView } from 'react-native';
+import { View, TextPrimary } from '../Theme/Themed';
 import { ResultObject } from '../../types';
 import { styles } from './styles';
 import useColorScheme from '../../hooks/useColorScheme';
@@ -9,7 +9,7 @@ import Colors from '../../constants/Colors';
 interface Props {
   result: ResultObject;
   guesses: number;
-  textInputRef: React.RefObject<RNTextInput>;
+  textInputRef: React.RefObject<TextInput>;
 }
 
 export const ImageCarousel = ({ result, guesses, textInputRef }: Props) => {
@@ -242,7 +242,6 @@ export const ImageCarousel = ({ result, guesses, textInputRef }: Props) => {
         {showImage(imageToShow, imageUrls)}
       </Pressable>
       <View style={styles.imageIndex}>{showImageIndex(imageToShow)}</View>
-      <TextInput style={{ width: 0, height: 0 }} />
     </View>
   );
 };

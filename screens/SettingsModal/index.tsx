@@ -1,6 +1,6 @@
 import React from 'react';
 import { KeyboardAvoidingView, Modal, Platform, Pressable } from 'react-native';
-import { View, TextPrimary } from '../../components/Theme/Themed';
+import { View, TextPrimary, SubHead, Head } from '../../components/Theme/Themed';
 import { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { StatsContainer } from '../../components/StatsContainer';
 import { PlatformTypes, ResultObject, SetBooleanState } from '../../types';
@@ -45,7 +45,7 @@ export const SettingsModal = ({ result, settingsModalState, setSettingsModalStat
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={[styles.modalView]}>
           {closeModalButton(Platform)}
-          <TextPrimary style={styles.text}>Details Screen</TextPrimary>
+          <Head style={{ textTransform: 'uppercase' }}>Stats</Head>
           <StatsContainer />
           <View style={[styles.lineBreak, { backgroundColor: Colors[theme]['textPrimary'] }]} />
         </View>
