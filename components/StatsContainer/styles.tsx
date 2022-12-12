@@ -3,11 +3,10 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   statRow: {
     flexDirection: 'row',
-    width: '60%',
+    width: '100%',
     alignItems: 'baseline',
     justifyContent: 'space-evenly',
-    paddingTop: 22,
-    paddingBottom: 22,
+    paddingVertical: 22,
   },
   statCol: {
     flexDirection: 'column',

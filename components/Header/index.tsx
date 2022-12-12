@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Pressable } from 'react-native';
 import { AuthTypes, SetBooleanState } from '../../types';
-import { View, Text } from '../Theme/Themed';
+import { View, TextPrimary } from '../Theme/Themed';
 import { styles } from './styles';
 
 interface Props {
@@ -31,7 +31,7 @@ export const Header = ({
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.logo}>Header</Text>
+        <TextPrimary style={styles.logo}>Header</TextPrimary>
       </View>
       <View style={styles.utilityContainer}>
         <View style={styles.authGroup}>
@@ -44,7 +44,7 @@ export const Header = ({
             onHoverOut={() => setSignUpHover(false)}
             style={[styles.signUpAuthButton, { borderColor: signUpHover ? '#fff' : '#5346c4' }]}
           >
-            <Text style={styles.text}>Create Account</Text>
+            <TextPrimary style={styles.text}>Create Account</TextPrimary>
           </Pressable>
           <Pressable
             onPress={() => {
@@ -61,7 +61,9 @@ export const Header = ({
               },
             ]}
           >
-            <Text style={[styles.text, { color: logHover ? '#000000' : '#fff' }]}>Login</Text>
+            <TextPrimary style={[styles.text, { color: logHover ? '#000000' : '#fff' }]}>
+              Login
+            </TextPrimary>
           </Pressable>
         </View>
         <Pressable
@@ -71,7 +73,9 @@ export const Header = ({
             settingsModalState === true ? setSettingsModalState(false) : setSettingsModalState(true)
           }
         >
-          <Text style={[styles.iconText, { color: settingsHover ? '#5346c4' : '#fff' }]}>⚙</Text>
+          <TextPrimary style={[styles.iconText, { color: settingsHover ? '#5346c4' : '#fff' }]}>
+            ⚙
+          </TextPrimary>
         </Pressable>
       </View>
     </View>

@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
 
-import { Text, View } from '../components/Theme/Themed';
+import { TextPrimary, View } from '../components/Theme/Themed';
 import { RootTabScreenProps } from '../types';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
+      <TextPrimary style={styles.title}>Tab One</TextPrimary>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
     </View>
   );

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { View, Text } from '../Theme/Themed';
+import { View, TextPrimary } from '../Theme/Themed';
 import { Answer, ResultObject } from '../../types';
 import { styles } from './styles';
 import { checkAnswer, setFontSize } from '../../hooks/index';
@@ -25,12 +25,12 @@ export const GameBoard = ({ answer, userInput, guesses, result, textInputRef }: 
       return answer.map((obj, index) => {
         return obj.userInput.length === 0 && index === guesses ? (
           <View key={obj.id} style={styles.answerListView}>
-            <Text
+            <TextPrimary
               style={[styles.answerList, { fontSize: setFontSize(userInput.length) }]}
               numberOfLines={1}
             >
               {userInput}
-            </Text>
+            </TextPrimary>
           </View>
         ) : (
           <View key={obj.id} style={styles.answerListView}>

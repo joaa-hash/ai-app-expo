@@ -9,10 +9,10 @@ import { ImageCarousel } from '../../components/ImageCarousel';
 import { InitialResultObject } from '../../models/InitialResultObject';
 import { InitialAnswerState } from '../../models/InitialAnswerState';
 import { ResultObject, Answer } from '../../types';
-import { Information } from '../Information/index';
+import { SettingsModal } from '../SettingsModal/index';
 import { styles } from './styles';
 import * as Result from '../../hooks/temp.json';
-import { View, ScrollView, Text, SubText } from '../../components/Theme/Themed';
+import { View, ScrollView, TextPrimary, SubTextPrimary } from '../../components/Theme/Themed';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import useColorScheme from '../../hooks/useColorScheme';
 import Colors from '../../constants/Colors';
@@ -63,7 +63,7 @@ export const Home: React.FC = () => {
   };
 
   const animatedStyle = useAnimatedStyle(() => {
-    const opacity = withTiming(settingsModalState ? 0.1 : 1, config);
+    const opacity = withTiming(settingsModalState || authModalState ? 0.3 : 1, config);
     return {
       opacity,
     };
@@ -71,7 +71,7 @@ export const Home: React.FC = () => {
 
   return (
     <Container>
-      <Information
+      <SettingsModal
         result={result}
         settingsModalState={settingsModalState}
         setSettingsModalState={setSettingsModalState}
@@ -141,15 +141,13 @@ export const Home: React.FC = () => {
               <View style={styles.aiHintContainer}>
                 <ImageCarousel textInputRef={textInputRef} result={result} guesses={guesses} />
                 <View style={styles.hintInfo}>
-                  <Text style={styles.infoText}>
-                    <Text style={[styles.infoText, { fontWeight: '700', fontSize: 28 }]}>
+                  <TextPrimary style={styles.infoText}>
+                    <TextPrimary style={[styles.infoText, { fontWeight: '700', fontSize: 28 }]}>
                       {(5 - guesses).toString()}
-                    </Text>{' '}
+                    </TextPrimary>{' '}
                     Guesses Left!
-                  </Text>
-                  <SubText style={[styles.infoText, { fontSize: 12, paddingTop: 8 }]}>
-                    Type anywhere to get started
-                  </SubText>
+                  </TextPrimary>
+                  <SubTextPrimary>Type anywhere to get started</SubTextPrimary>
                 </View>
               </View>
               <GameBoard

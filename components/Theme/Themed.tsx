@@ -8,6 +8,7 @@ import {
 import Animated, { AnimateProps } from 'react-native-reanimated';
 
 import Colors from '../../constants/Colors';
+import ComponentProperties from '../../constants/ComponentProperties';
 import useColorScheme from '../../hooks/useColorScheme';
 
 export function useThemeColor(
@@ -37,25 +38,75 @@ export type AnimatedTextProps = ThemeProps & DefaultText['props'];
 export type AnimatedViewProps = ThemeProps & AnimateProps<ViewProps>;
 export type AnimatedImageProps = ThemeProps & AnimateProps<ImageProps>;
 
-export function Text(props: TextProps) {
+export function Head(props: TextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'textPrimary');
 
-  return <DefaultText style={[{ color }, style]} {...otherProps} />;
+  return <DefaultText style={[{ color }, ComponentProperties.head, style]} {...otherProps} />;
 }
 
-export function SubText(props: TextProps) {
+export function SubHead(props: TextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'subtext');
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'textPrimary');
 
-  return <DefaultText style={[{ color }, style]} {...otherProps} />;
+  return (
+    <DefaultText
+      style={[{ color, fontWeight: '700' }, ComponentProperties.subHead, style]}
+      {...otherProps}
+    />
+  );
+}
+
+export function TextPrimary(props: TextProps) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'textPrimary');
+
+  return (
+    <DefaultText style={[{ color }, ComponentProperties.textPrimary, style]} {...otherProps} />
+  );
+}
+
+export function SubTextPrimary(props: TextProps) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'subtextPrimary');
+  const fontSize = ComponentProperties.subtext.fontSize;
+  const paddingTop = ComponentProperties.subtext.paddingTop;
+
+  return <DefaultText style={[{ color, paddingTop, fontSize }, style]} {...otherProps} />;
+}
+
+export function SubTextTertiary(props: TextProps) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'subtextTertiary');
+  const fontSize = ComponentProperties.subtext.fontSize;
+  const paddingTop = ComponentProperties.subtext.paddingTop;
+
+  return <DefaultText style={[{ color, paddingTop, fontSize }, style]} {...otherProps} />;
+}
+
+export function FormLabel(props: TextProps) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'formLabelPrimary');
+
+  return (
+    <DefaultText
+      style={[{ color, fontWeight: '700' }, ComponentProperties.formLabelPrimary, style]}
+      {...otherProps}
+    />
+  );
 }
 
 export function TextInput(props: TextInputProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'textPrimary');
+  const borderColor = useThemeColor({ light: lightColor, dark: darkColor }, 'borderTertiary');
 
-  return <DefaultTextInput style={[{ color }, style]} {...otherProps} />;
+  return (
+    <DefaultTextInput
+      style={[{ color, borderColor }, ComponentProperties.textInput, style]}
+      {...otherProps}
+    />
+  );
 }
 
 export function View(props: ViewProps) {
@@ -73,7 +124,7 @@ export function ScrollView(props: ScrollViewProps) {
 
 export function AnimatedText(props: AnimatedTextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'textPrimary');
 
   return <Animated.Text style={[{ color }, style]} {...otherProps} />;
 }

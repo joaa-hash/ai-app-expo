@@ -54,7 +54,6 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   infoText: {
-    color: '#fff',
     fontSize: 24,
     letterSpacing: 2.8,
   },
