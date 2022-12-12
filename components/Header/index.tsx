@@ -34,7 +34,7 @@ export const Header = ({
   return (
     <View style={styles.container}>
       <View>
-        <TextPrimary style={styles.logo}>Header</TextPrimary>
+        <TextPrimary style={styles.logo}>triv_AI</TextPrimary>
       </View>
       <View style={styles.utilityContainer}>
         <View style={styles.authGroup}>

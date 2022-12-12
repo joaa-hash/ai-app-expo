@@ -14,12 +14,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   statText: {
-    color: '#fff',
     fontSize: 42,
     letterSpacing: 2.5,
   },
   statDescription: {
-    color: '#fff',
     fontSize: 9,
     letterSpacing: 2.5,
   },

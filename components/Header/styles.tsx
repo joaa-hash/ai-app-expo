@@ -11,14 +11,12 @@ export const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 30,
     zIndex: 1,
-    shadowColor: '#2d2d2dad',
-    shadowOffset: { width: 0, height: 1 },
-    shadowRadius: 5,
-    shadowOpacity: 0.4,
     minHeight: 90,
   },
   logo: {
     fontSize: 28,
+    fontWeight: '800',
+    letterSpacing: 4,
   },
   iconText: {
     fontSize: 46,

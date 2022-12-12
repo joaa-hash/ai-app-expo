@@ -28,7 +28,6 @@ export const showWinMessage = (result: ResultObject, answer: Answer, guesses: nu
 
 const styles = StyleSheet.create({
   infoText: {
-    color: '#fff',
     fontSize: 42,
     letterSpacing: 6,
     paddingVertical: 22,

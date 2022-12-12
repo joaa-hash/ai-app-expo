@@ -7,6 +7,8 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 import { View, AnimatedText } from '../../components/Theme/Themed';
+import Colors from '../../constants/Colors';
+import useColorScheme from '../../hooks/useColorScheme';
 import { setFontSize } from '../../hooks/utils/setFontSize';
 
 type Props = {
@@ -16,6 +18,7 @@ type Props = {
 };
 
 export const TextColorChangeAnimation = ({ color, input, inputRef }: Props) => {
+  const theme = useColorScheme();
   const config = {
     duration: 1700,
     easing: Easing.ease,
@@ -26,20 +29,22 @@ export const TextColorChangeAnimation = ({ color, input, inputRef }: Props) => {
   });
 
   const animatedStyle = useAnimatedStyle(() => {
-    const textColor = interpolateColor(progress.value, [0, 1], ['#ffffff', color]);
+    const textColor = interpolateColor(
+      progress.value,
+      [0, 1],
+      [Colors[theme]['textPrimary'], color]
+    );
     return {
       color: textColor,
     };
   });
 
   return (
-    <View>
-      <AnimatedText
-        style={[animatedStyle, styles.answerList, { fontSize: setFontSize(input.length) }]}
-      >
-        {input}
-      </AnimatedText>
-    </View>
+    <AnimatedText
+      style={[animatedStyle, styles.answerList, { fontSize: setFontSize(input.length) }]}
+    >
+      {input}
+    </AnimatedText>
   );
 };
 

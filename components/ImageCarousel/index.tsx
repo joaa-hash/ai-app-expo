@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, Pressable, View, Text, TextInput, Animated } from 'react-native';
+import { Image, Pressable, Animated, TextInput as RNTextInput, View as RNView } from 'react-native';
+import { View, TextPrimary, TextInput } from '../Theme/Themed';
 import { ResultObject } from '../../types';
 import { styles } from './styles';
 import useColorScheme from '../../hooks/useColorScheme';
@@ -8,7 +9,7 @@ import Colors from '../../constants/Colors';
 interface Props {
   result: ResultObject;
   guesses: number;
-  textInputRef: React.RefObject<TextInput>;
+  textInputRef: React.RefObject<RNTextInput>;
 }
 
 export const ImageCarousel = ({ result, guesses, textInputRef }: Props) => {
@@ -16,7 +17,7 @@ export const ImageCarousel = ({ result, guesses, textInputRef }: Props) => {
   const [imageToShow, setImageToShow] = useState(0);
   const theme = useColorScheme();
 
-  const imageIndexRef = React.createRef<View>();
+  const imageIndexRef = React.createRef<RNView>();
 
   const getUrls = (obj: ResultObject) => {
     if (obj !== undefined) {
@@ -149,7 +150,7 @@ export const ImageCarousel = ({ result, guesses, textInputRef }: Props) => {
         if (index === imageIndex) {
           return (
             <View key={index} style={styles.imageIndex}>
-              <Text style={{ fontSize: 20, color: '#ffffff' }}>●</Text>
+              <TextPrimary style={{ fontSize: 20 }}>●</TextPrimary>
             </View>
           );
         }
@@ -163,7 +164,7 @@ export const ImageCarousel = ({ result, guesses, textInputRef }: Props) => {
                   setImageToShow(index);
                 }}
               >
-                <Text style={{ fontSize: 18, color: '#9c9c9c91' }}>○</Text>
+                <TextPrimary style={{ fontSize: 18, color: '#9c9c9c91' }}>○</TextPrimary>
               </Pressable>
             );
           }
@@ -176,29 +177,29 @@ export const ImageCarousel = ({ result, guesses, textInputRef }: Props) => {
                   setImageToShow(index);
                 }}
               >
-                <Text style={{ fontSize: 18, color: '#9c9c9c91' }}>○</Text>
+                <TextPrimary style={{ fontSize: 18, color: '#9c9c9c91' }}>○</TextPrimary>
               </Pressable>
             );
           } else {
             return index === imageIndex ? (
-              <Text style={{ fontSize: 20, color: '#ffffff' }} key={index}>
+              <TextPrimary style={{ fontSize: 20 }} key={index}>
                 ●
-              </Text>
+              </TextPrimary>
             ) : (
-              <Text style={{ fontSize: 18, color: '#9c9c9c91' }} key={index}>
+              <TextPrimary style={{ fontSize: 18, color: '#9c9c9c91' }} key={index}>
                 ○
-              </Text>
+              </TextPrimary>
             );
           }
         } else {
           return index === imageIndex ? (
-            <Text style={{ fontSize: 20, color: '#ffffff' }} key={index}>
+            <TextPrimary style={{ fontSize: 20 }} key={index}>
               ●
-            </Text>
+            </TextPrimary>
           ) : (
-            <Text style={{ fontSize: 18, color: '#9c9c9c91' }} key={index}>
+            <TextPrimary style={{ fontSize: 18, color: '#9c9c9c91' }} key={index}>
               ○
-            </Text>
+            </TextPrimary>
           );
         }
       });

@@ -36,7 +36,6 @@ export const styles = StyleSheet.create({
     paddingRight: 10,
   },
   closeButtonText: {
-    color: '#ffffff',
     fontSize: 22,
   },
   text: {

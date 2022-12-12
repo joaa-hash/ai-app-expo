@@ -5,6 +5,8 @@ import { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { StatsContainer } from '../../components/StatsContainer';
 import { PlatformTypes, ResultObject, SetBooleanState } from '../../types';
 import { styles } from './styles';
+import Colors from '../../constants/Colors';
+import useColorScheme from '../../hooks/useColorScheme';
 
 interface Props {
   settingsModalState: boolean;
@@ -13,6 +15,7 @@ interface Props {
 }
 
 export const SettingsModal = ({ result, settingsModalState, setSettingsModalState }: Props) => {
+  const theme = useColorScheme();
   const closeModalButton = (platform: PlatformTypes) => {
     return platform.OS === 'web' ? (
       <Pressable
@@ -44,7 +47,7 @@ export const SettingsModal = ({ result, settingsModalState, setSettingsModalStat
           {closeModalButton(Platform)}
           <TextPrimary style={styles.text}>Details Screen</TextPrimary>
           <StatsContainer />
-          <View style={styles.lineBreak} />
+          <View style={[styles.lineBreak, { backgroundColor: Colors[theme]['textPrimary'] }]} />
         </View>
       </KeyboardAvoidingView>
     </Modal>
