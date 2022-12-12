@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Pressable } from 'react-native';
+import Colors from '../../constants/Colors';
+import useColorScheme from '../../hooks/useColorScheme';
 import { AuthTypes, SetBooleanState } from '../../types';
 import { View, TextPrimary } from '../Theme/Themed';
 import { styles } from './styles';
@@ -27,6 +29,7 @@ export const Header = ({
   const [signUpHover, setSignUpHover] = useState(false);
   const [logHover, setLogHover] = useState(false);
   const [settingsHover, setSettingsHover] = useState(false);
+  const theme = useColorScheme();
 
   return (
     <View style={styles.container}>
@@ -42,7 +45,10 @@ export const Header = ({
             }}
             onHoverIn={() => setSignUpHover(true)}
             onHoverOut={() => setSignUpHover(false)}
-            style={[styles.signUpAuthButton, { borderColor: signUpHover ? '#fff' : '#5346c4' }]}
+            style={[
+              styles.signUpAuthButton,
+              { borderColor: signUpHover ? Colors[theme]['border'] : '#5346c4' },
+            ]}
           >
             <TextPrimary style={styles.text}>Create Account</TextPrimary>
           </Pressable>
@@ -56,7 +62,7 @@ export const Header = ({
             style={[
               styles.logInOutAuthButton,
               {
-                borderColor: logHover ? '#fff' : '#5346c4',
+                borderColor: logHover ? Colors[theme]['border'] : '#5346c4',
                 backgroundColor: logHover ? '#fff' : '#5346c4',
               },
             ]}
@@ -73,7 +79,12 @@ export const Header = ({
             settingsModalState === true ? setSettingsModalState(false) : setSettingsModalState(true)
           }
         >
-          <TextPrimary style={[styles.iconText, { color: settingsHover ? '#5346c4' : '#fff' }]}>
+          <TextPrimary
+            style={[
+              styles.iconText,
+              { color: settingsHover ? '#5346c4' : Colors[theme]['textPrimary'] },
+            ]}
+          >
             ⚙
           </TextPrimary>
         </Pressable>
