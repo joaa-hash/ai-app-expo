@@ -36,6 +36,14 @@ export const styles = StyleSheet.create({
   input: {
     flex: 1,
   },
+  nameInput: {
+    flex: 1,
+    textAlign: 'center',
+    fontWeight: '700',
+    fontSize: 22,
+    textTransform: 'uppercase',
+    letterSpacing: 2,
+  },
   formLabel: {
     minWidth: '30%',
     width: '35%',
@@ -79,31 +87,10 @@ export const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 28,
   },
-  subText: {
-    fontSize: 10,
-    color: '#3f3f3f',
-    paddingHorizontal: 12,
-    paddingTop: 5,
-  },
   profileInformationContainer: {
     paddingVertical: 20,
     width: '70%',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  nameContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingTop: 8,
-    paddingBottom: 6,
-  },
-  addressContainer: {},
-  localityContainer: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    paddingBottom: 16,
   },
 });

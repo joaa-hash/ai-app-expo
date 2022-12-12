@@ -1,6 +1,6 @@
 export default {
   head: {
-    fontSize: 44,
+    fontSize: 42,
     letterSpacing: 8,
   },
   subHead: {

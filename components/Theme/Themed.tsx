@@ -44,7 +44,7 @@ export function Head(props: TextProps) {
 
   return (
     <DefaultText
-      style={[{ color, fontWeight: '700' }, ComponentProperties.head, style]}
+      style={[{ color, fontWeight: '600' }, ComponentProperties.head, style]}
       {...otherProps}
     />
   );

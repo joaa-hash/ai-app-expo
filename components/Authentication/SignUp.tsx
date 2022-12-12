@@ -109,16 +109,7 @@ export default function Signup({
             <TextInput
               value={profile.firstName}
               onChangeText={(text) => setProfile({ ...profile, firstName: text })}
-              style={[
-                styles.input,
-                {
-                  textAlign: 'center',
-                  fontWeight: '700',
-                  fontSize: 22,
-                  textTransform: 'uppercase',
-                  letterSpacing: 2,
-                },
-              ]}
+              style={[styles.nameInput]}
               autoCorrect={false}
               autoComplete="off"
               autoCapitalize="characters"
