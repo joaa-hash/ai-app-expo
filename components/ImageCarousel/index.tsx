@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, Pressable, Animated, TextInput, View as RNView } from 'react-native';
-import { View, TextPrimary } from '../Theme/Themed';
+import { Image, Animated, TextInput, View as RNView } from 'react-native';
+import { View, TextPrimary, Pressable } from '../Theme/Themed';
 import { ResultObject } from '../../types';
 import { styles } from './styles';
 import { useColorScheme } from '../../hooks';

@@ -3,11 +3,10 @@ import {
   KeyboardAvoidingView,
   Modal,
   Platform,
-  Pressable,
-  TextInput,
+  TextInput as DefaultTextInput,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { View, TextPrimary, Head } from '../../components/Theme/Themed';
+import { View, TextPrimary, Head, Pressable } from '../../components/Theme/Themed';
 import { StatsContainer } from '../../components/StatsContainer';
 import { PlatformTypes, ResultObject, SetBooleanState } from '../../types';
 import { styles } from './styles';
@@ -18,7 +17,7 @@ interface Props {
   settingsModalState: boolean;
   setSettingsModalState: SetBooleanState;
   result: ResultObject;
-  textInputRef: React.RefObject<TextInput>;
+  textInputRef: React.RefObject<DefaultTextInput>;
 }
 
 export const SettingsModal = ({

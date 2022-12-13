@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import { TextPrimary, View, TextInput, FormLabel } from '../Theme/Themed';
-import { KeyboardAvoidingView, Pressable, TouchableWithoutFeedback } from 'react-native';
+import { TextPrimary, View, TextInput, FormLabel, Pressable } from '../Theme/Themed';
+import { KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import { checkRequired, handleLogin, useColorScheme } from '../../hooks';
 import { styles } from './styles';
 import Colors from '../../constants/Colors';

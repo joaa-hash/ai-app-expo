@@ -1,7 +1,15 @@
 import React, { useCallback } from 'react';
-import { KeyboardAvoidingView, Pressable, TouchableWithoutFeedback } from 'react-native';
+import { KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import { styles } from './styles';
-import { View, TextPrimary, TextInput, SubTextTertiary, FormLabel, SubHead } from '../Theme/Themed';
+import {
+  View,
+  TextPrimary,
+  TextInput,
+  SubTextTertiary,
+  FormLabel,
+  Pressable,
+  SubHead,
+} from '../Theme/Themed';
 import { BaseProfile } from '../../constants/BaseProfile';
 import Colors from '../../constants/Colors';
 import { handleSignUp, checkRequiredForRegister, useColorScheme } from '../../hooks';
