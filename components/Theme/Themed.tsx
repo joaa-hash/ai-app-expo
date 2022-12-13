@@ -1,9 +1,15 @@
+import { JSXElement } from '@babel/types';
+import React, { Component, JSXElementConstructor, ReactElement, ReactNode } from 'react';
+import { ForwardRefExoticComponent, RefAttributes } from 'react';
+import { PressableProps, PressableStateCallbackType, TextComponent } from 'react-native';
 import {
   Text as DefaultText,
   TextInput as DefaultTextInput,
   View as DefaultView,
   ScrollView as DefaultScrollView,
+  Pressable as DefaultPressable,
   ImageProps,
+  TextProps as DefaultTextProps,
 } from 'react-native';
 import Animated, { AnimateProps } from 'react-native-reanimated';
 
@@ -37,6 +43,8 @@ export type ScrollViewProps = ThemeProps & DefaultScrollView['props'];
 export type AnimatedTextProps = ThemeProps & DefaultText['props'];
 export type AnimatedViewProps = ThemeProps & AnimateProps<ViewProps>;
 export type AnimatedImageProps = ThemeProps & AnimateProps<ImageProps>;
+export type Pressable = ThemeProps &
+  React.ForwardRefExoticComponent<PressableProps & React.RefAttributes<DefaultView>>;
 
 export function Head(props: TextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
@@ -139,4 +147,15 @@ export function AnimatedImage(props: AnimatedImageProps) {
   const borderColor = useThemeColor({ light: lightColor, dark: darkColor }, 'border');
 
   return <Animated.Image style={[{ borderColor }, style]} {...otherProps} />;
+}
+
+export function Pressable(props: Pressable) {
+  const { lightColor, darkColor, ...otherProps } = props;
+  const borderColor = useThemeColor({ light: lightColor, dark: darkColor }, 'border');
+
+  return (
+    <DefaultPressable style={[{ borderColor }]} {...otherProps}>
+      {/* {children} */}
+    </DefaultPressable>
+  );
 }

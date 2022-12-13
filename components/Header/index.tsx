@@ -1,9 +1,9 @@
 import React, { createRef, useEffect, useState } from 'react';
-import { Pressable, TextInput, View as RNView } from 'react-native';
+import { TextInput, View as RNView } from 'react-native';
 import Colors from '../../constants/Colors';
 import { useColorScheme } from '../../hooks';
 import { AuthTypes, SetBooleanState } from '../../types';
-import { View, TextPrimary } from '../Theme/Themed';
+import { View, TextPrimary, Pressable } from '../Theme/Themed';
 import { styles } from './styles';
 
 interface Props {
