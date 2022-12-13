@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { TextInput, Platform, TouchableWithoutFeedback } from 'react-native';
-import { checkStyles, checkAnswer, disableTextInput, hydrateAnswers } from '../../hooks';
-import { Container } from '../../components';
-import { Header } from '../../components/Header';
-import { GameBoard } from '../../components/GameBoard';
-import { Category } from '../../components/Category';
-import { ImageCarousel } from '../../components/ImageCarousel';
+import { View, ScrollView, TextPrimary, SubTextPrimary } from '../../components/Theme/Themed';
+import { Container, Header, GameBoard, Category, ImageCarousel } from '../../components';
+import {
+  checkStyles,
+  checkAnswer,
+  disableTextInput,
+  hydrateAnswers,
+  useColorScheme,
+} from '../../hooks';
 import { InitialResultObject } from '../../models/InitialResultObject';
 import { InitialAnswerState } from '../../models/InitialAnswerState';
 import { ResultObject, Answer } from '../../types';
 import { SettingsModal } from '../SettingsModal/index';
 import { styles } from './styles';
 import * as Result from '../../hooks/temp.json';
-import { View, ScrollView, TextPrimary, SubTextPrimary } from '../../components/Theme/Themed';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import useColorScheme from '../../hooks/useColorScheme';
 import Colors from '../../constants/Colors';
 import AuthModal from '../AuthModal';
 
@@ -38,6 +39,15 @@ export const Home: React.FC = () => {
     setAnswer(hydrateAnswers(userInput, answer, guesses));
     textInputRef.current?.focus();
   }, [guesses]);
+
+  useEffect(() => {
+    if (!authModalState && !settingsModalState && !login && !register) {
+      console.log('====================================');
+      console.log('HIT');
+      console.log('====================================');
+      textInputRef.current?.focus();
+    }
+  }, [authModalState, settingsModalState, login, register]);
 
   useEffect(() => {
     setResult(Result.result);
@@ -75,15 +85,16 @@ export const Home: React.FC = () => {
         result={result}
         settingsModalState={settingsModalState}
         setSettingsModalState={setSettingsModalState}
+        textInputRef={textInputRef}
       />
       <AuthModal
-        textInputRef={textInputRef}
         setLogin={setLogin}
         login={login}
         setRegister={setRegister}
         register={register}
         authModalState={authModalState}
         setAuthModalState={setAuthModalState}
+        textInputRef={textInputRef}
       />
       <TouchableWithoutFeedback
         onPress={() => {
@@ -109,6 +120,7 @@ export const Home: React.FC = () => {
               setLogin={setLogin}
               register={register}
               setRegister={setRegister}
+              textInputRef={textInputRef}
             />
           ) : (
             <></>

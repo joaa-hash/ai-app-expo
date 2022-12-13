@@ -3,7 +3,7 @@ import { Image, Pressable, Animated, TextInput, View as RNView } from 'react-nat
 import { View, TextPrimary } from '../Theme/Themed';
 import { ResultObject } from '../../types';
 import { styles } from './styles';
-import useColorScheme from '../../hooks/useColorScheme';
+import { useColorScheme } from '../../hooks';
 import Colors from '../../constants/Colors';
 
 interface Props {

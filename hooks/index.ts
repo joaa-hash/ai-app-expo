@@ -9,6 +9,7 @@ import { handleSignUp } from './Authentication/handleSignUp';
 import { validatePassword } from './Authentication/validatePassword';
 import { checkRequired } from './Authentication/checkRequired';
 import { checkRequiredForRegister } from './Authentication/checkRequiredForRegister';
+import useColorScheme from './useColorScheme';
 export {
   checkAnswer,
   checkStyles,
@@ -21,4 +22,5 @@ export {
   validatePassword,
   checkRequired,
   checkRequiredForRegister,
+  useColorScheme,
 };

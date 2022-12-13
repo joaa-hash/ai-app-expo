@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react';
 import { TextPrimary, View, TextInput, FormLabel } from '../Theme/Themed';
-import { KeyboardAvoidingView, Pressable } from 'react-native';
+import { KeyboardAvoidingView, Pressable, TouchableWithoutFeedback } from 'react-native';
+import { checkRequired, handleLogin, useColorScheme } from '../../hooks';
 import { styles } from './styles';
 import Colors from '../../constants/Colors';
-import useColorScheme from '../../hooks/useColorScheme';
 import { BaseProfile } from '../../constants/BaseProfile';
 import { AuthTypes } from '../../types';
-import { checkRequired, handleLogin } from '../../hooks';
 
 export default function Login({
   password,
@@ -31,7 +30,10 @@ export default function Login({
         checkRequired(email, password, verifyPassword) === true
           ? Colors[theme].background
           : '#5346c4',
-      borderColor: checkRequired(email, password, verifyPassword) === true ? '#3f3f3f' : '#5346c4',
+      borderColor:
+        checkRequired(email, password, verifyPassword) === true
+          ? Colors[theme].borderTertiary
+          : '#5346c4',
     };
   }, [password, verifyPassword, theme, email]);
 
@@ -46,58 +48,62 @@ export default function Login({
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={styles.modalView}>
-        <View style={styles.inputContainer}>
-          <View style={styles.formInput}>
-            <FormLabel style={styles.formLabel}>Email:</FormLabel>
-            <TextInput
-              value={email}
-              onChangeText={(text: string) => setEmail(text)}
-              style={[styles.input]}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoComplete="email"
-            />
+      <TouchableWithoutFeedback>
+        <View style={styles.modalView}>
+          <View style={styles.inputContainer}>
+            <View style={styles.formInput}>
+              <FormLabel style={styles.formLabel}>Email:</FormLabel>
+              <TextInput
+                value={email}
+                onChangeText={(text: string) => setEmail(text)}
+                style={[styles.input]}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoComplete="email"
+              />
+            </View>
+            <View style={styles.formInput}>
+              <FormLabel style={styles.formLabel}>Password:</FormLabel>
+              <TextInput
+                value={password}
+                onChangeText={(text: string) => {
+                  setVerifyPassword(text);
+                  setPassword(text);
+                }}
+                style={[styles.input]}
+                secureTextEntry
+                autoCorrect={false}
+                autoComplete="password"
+              />
+            </View>
           </View>
-          <View style={styles.formInput}>
-            <FormLabel style={styles.formLabel}>Password:</FormLabel>
-            <TextInput
-              value={password}
-              onChangeText={(text: string) => {
-                setVerifyPassword(text);
-                setPassword(text);
+          <View style={styles.buttonContainer}>
+            <Pressable
+              onPress={() => {
+                setEmail('');
+                setPassword('');
+                setVerifyPassword('');
+                setProfile(BaseProfile);
+                setAuthModalState(!authModalState);
+                setLogin(false);
+                setRegister(false);
               }}
-              style={[styles.input]}
-              secureTextEntry
-              autoCorrect={false}
-              autoComplete="password"
-            />
+              style={styles.cancelButton}
+            >
+              <TextPrimary style={[styles.buttonText, { color: '#ffffff' }]}>Cancel</TextPrimary>
+            </Pressable>
+            <Pressable
+              onPress={() => handleLogin(email, password)}
+              style={[styles.button, disableLoginButton()]}
+              disabled={checkRequired(email, password, verifyPassword)}
+            >
+              <TextPrimary style={[styles.buttonText, changeTextColorForLogin()]}>
+                Login
+              </TextPrimary>
+            </Pressable>
           </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <Pressable
-            onPress={() => {
-              setEmail('');
-              setPassword('');
-              setVerifyPassword('');
-              setProfile(BaseProfile);
-              setAuthModalState(!authModalState);
-              setLogin(false);
-              setRegister(false);
-            }}
-            style={styles.cancelButton}
-          >
-            <TextPrimary style={[styles.buttonText, { color: '#ffffff' }]}>Cancel</TextPrimary>
-          </Pressable>
-          <Pressable
-            onPress={() => handleLogin(email, password)}
-            style={[styles.button, disableLoginButton()]}
-            disabled={checkRequired(email, password, verifyPassword)}
-          >
-            <TextPrimary style={[styles.buttonText, changeTextColorForLogin()]}>Login</TextPrimary>
-          </Pressable>
-        </View>
-      </View>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 }

@@ -26,6 +26,7 @@ export const styles = StyleSheet.create({
     },
     shadowRadius: 8,
     elevation: 0,
+    zIndex: 1,
   },
   credentialContainer: {
     width: '84%',

@@ -1,20 +1,32 @@
 import React from 'react';
-import { KeyboardAvoidingView, Modal, Platform, Pressable } from 'react-native';
-import { View, TextPrimary, SubHead, Head } from '../../components/Theme/Themed';
-import { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import {
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  Pressable,
+  TextInput,
+  TouchableWithoutFeedback,
+} from 'react-native';
+import { View, TextPrimary, Head } from '../../components/Theme/Themed';
 import { StatsContainer } from '../../components/StatsContainer';
 import { PlatformTypes, ResultObject, SetBooleanState } from '../../types';
 import { styles } from './styles';
 import Colors from '../../constants/Colors';
-import useColorScheme from '../../hooks/useColorScheme';
+import { useColorScheme } from '../../hooks';
 
 interface Props {
   settingsModalState: boolean;
   setSettingsModalState: SetBooleanState;
   result: ResultObject;
+  textInputRef: React.RefObject<TextInput>;
 }
 
-export const SettingsModal = ({ result, settingsModalState, setSettingsModalState }: Props) => {
+export const SettingsModal = ({
+  result,
+  settingsModalState,
+  setSettingsModalState,
+  textInputRef,
+}: Props) => {
   const theme = useColorScheme();
   const closeModalButton = (platform: PlatformTypes) => {
     return platform.OS === 'web' ? (
@@ -34,22 +46,31 @@ export const SettingsModal = ({ result, settingsModalState, setSettingsModalStat
   };
 
   return (
-    <Modal
-      visible={settingsModalState}
-      transparent={true}
-      animationType="fade"
-      onRequestClose={() => {
-        setSettingsModalState(!settingsModalState);
+    <TouchableWithoutFeedback
+      onPress={() => {
+        setSettingsModalState(false);
+        textInputRef.current?.focus();
       }}
     >
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <View style={[styles.modalView]}>
-          {closeModalButton(Platform)}
-          <Head style={{ textTransform: 'uppercase' }}>Stats</Head>
-          <StatsContainer />
-          <View style={[styles.lineBreak, { backgroundColor: Colors[theme]['textPrimary'] }]} />
-        </View>
-      </KeyboardAvoidingView>
-    </Modal>
+      <Modal
+        visible={settingsModalState}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => {
+          setSettingsModalState(!settingsModalState);
+        }}
+      >
+        <TouchableWithoutFeedback>
+          <KeyboardAvoidingView style={styles.container} behavior="padding">
+            <View style={[styles.modalView]}>
+              {closeModalButton(Platform)}
+              <Head style={{ textTransform: 'uppercase' }}>Stats</Head>
+              <StatsContainer />
+              <View style={[styles.lineBreak, { backgroundColor: Colors[theme]['textPrimary'] }]} />
+            </View>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </Modal>
+    </TouchableWithoutFeedback>
   );
 };

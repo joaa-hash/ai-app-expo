@@ -6,10 +6,9 @@ import {
   useDerivedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { View, AnimatedText } from '../../components/Theme/Themed';
+import { AnimatedText } from '../../components/Theme/Themed';
+import { setFontSize, useColorScheme } from '../../hooks';
 import Colors from '../../constants/Colors';
-import useColorScheme from '../../hooks/useColorScheme';
-import { setFontSize } from '../../hooks/utils/setFontSize';
 
 type Props = {
   color: string;

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { View, TextPrimary } from '../Theme/Themed';
 import { Answer, ResultObject } from '../../types';
 import { styles } from './styles';
-import { checkAnswer, setFontSize } from '../../hooks/index';
+import { checkAnswer, setFontSize } from '../../hooks';
 import { showWinMessage } from '../WinMessage';
 import { TextColorChangeAnimation } from '../Animations/TextColorChangeAnimation';
 import { TextInput } from 'react-native';

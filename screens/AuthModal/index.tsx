@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, TextInput } from 'react-native';
+import { Modal, TextInput, TouchableWithoutFeedback } from 'react-native';
 import { auth } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
@@ -49,53 +49,62 @@ export default function AuthModal({
   }, [password, verifyPassword, email]);
 
   return (
-    <Modal
-      animationType="fade"
-      visible={authModalState}
-      onRequestClose={() => {
+    <TouchableWithoutFeedback
+      onPress={() => {
+        setAuthModalState(false);
         setLogin(false);
         setRegister(false);
-        setAuthModalState(!authModalState);
+        textInputRef.current?.focus();
       }}
-      transparent={true}
     >
-      {login ? (
-        <Login
-          setLogin={setLogin}
-          login={login}
-          setRegister={setRegister}
-          register={register}
-          authModalState={authModalState}
-          setAuthModalState={setAuthModalState}
-          setProfile={setProfile}
-          profile={profile}
-          email={email}
-          password={password}
-          setEmail={setEmail}
-          setPassword={setPassword}
-          setVerifyPassword={setVerifyPassword}
-          verifyPassword={verifyPassword}
-        />
-      ) : register ? (
-        <Signup
-          setLogin={setLogin}
-          login={login}
-          setRegister={setRegister}
-          register={register}
-          email={email}
-          password={password}
-          verifyPassword={verifyPassword}
-          profile={profile}
-          authModalState={authModalState}
-          setEmail={setEmail}
-          setPassword={setPassword}
-          setVerifyPassword={setVerifyPassword}
-          setProfile={setProfile}
-          setAuthModalState={setAuthModalState}
-        />
-      ) : (
-        <></>
-      )}
-    </Modal>
+      <Modal
+        animationType="slide"
+        visible={authModalState}
+        onRequestClose={() => {
+          setAuthModalState(!authModalState);
+          setLogin(false);
+          setRegister(false);
+        }}
+        transparent={true}
+      >
+        {login ? (
+          <Login
+            setLogin={setLogin}
+            login={login}
+            setRegister={setRegister}
+            register={register}
+            authModalState={authModalState}
+            setAuthModalState={setAuthModalState}
+            setProfile={setProfile}
+            profile={profile}
+            email={email}
+            password={password}
+            setEmail={setEmail}
+            setPassword={setPassword}
+            setVerifyPassword={setVerifyPassword}
+            verifyPassword={verifyPassword}
+          />
+        ) : register ? (
+          <Signup
+            setLogin={setLogin}
+            login={login}
+            setRegister={setRegister}
+            register={register}
+            email={email}
+            password={password}
+            verifyPassword={verifyPassword}
+            profile={profile}
+            authModalState={authModalState}
+            setEmail={setEmail}
+            setPassword={setPassword}
+            setVerifyPassword={setVerifyPassword}
+            setProfile={setProfile}
+            setAuthModalState={setAuthModalState}
+          />
+        ) : (
+          <></>
+        )}
+      </Modal>
+    </TouchableWithoutFeedback>
   );
 }

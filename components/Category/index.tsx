@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Head, TextPrimary } from '../Theme/Themed';
+import { Head } from '../Theme/Themed';
 import { ResultObject } from '../../types';
 
 export const Category = (result: ResultObject) => {
