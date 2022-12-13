@@ -34,14 +34,7 @@ export const Header = ({
   const [settingsHover, setSettingsHover] = useState(false);
   const theme = useColorScheme();
 
-  const signupButtonRef = createRef<RNView>();
-
-  useEffect(() => {
-    console.log('====================================');
-    console.log('Header');
-    console.log('====================================');
-    signupButtonRef.current?.blur();
-  }, [authModalState, settingsModalState, login, register]);
+  const buttonRef = React.createRef<RNView>();
 
   return (
     <View style={styles.container}>
@@ -54,6 +47,8 @@ export const Header = ({
             onPress={() => {
               setAuthModalState(true);
               setRegister(true);
+              buttonRef.current?.blur();
+              textInputRef.current?.focus();
             }}
             onHoverIn={() => setSignUpHover(true)}
             onHoverOut={() => setSignUpHover(false)}
@@ -61,7 +56,7 @@ export const Header = ({
               styles.signUpAuthButton,
               { borderColor: signUpHover ? Colors[theme]['border'] : '#5346c4' },
             ]}
-            ref={signupButtonRef}
+            ref={buttonRef}
           >
             <TextPrimary style={styles.text}>Create Account</TextPrimary>
           </Pressable>
@@ -69,6 +64,8 @@ export const Header = ({
             onPress={() => {
               setLogin(true);
               setAuthModalState(true);
+              buttonRef.current?.blur();
+              textInputRef.current?.focus();
             }}
             onHoverIn={() => setLogHover(true)}
             onHoverOut={() => setLogHover(false)}
@@ -79,7 +76,7 @@ export const Header = ({
                 backgroundColor: logHover ? '#fff' : '#5346c4',
               },
             ]}
-            // ref={buttonRef}
+            ref={buttonRef}
           >
             <TextPrimary style={[styles.text, { color: logHover ? '#000000' : '#fff' }]}>
               Login
@@ -89,10 +86,12 @@ export const Header = ({
         <Pressable
           onHoverIn={() => setSettingsHover(true)}
           onHoverOut={() => setSettingsHover(false)}
-          onPress={() =>
-            settingsModalState === true ? setSettingsModalState(false) : setSettingsModalState(true)
-          }
-          // ref={buttonRef}
+          onPress={() => {
+            setSettingsModalState(true);
+            buttonRef.current?.blur();
+            textInputRef.current?.focus();
+          }}
+          ref={buttonRef}
         >
           <TextPrimary
             style={[

@@ -1,7 +1,17 @@
 import { JSXElement } from '@babel/types';
-import React, { Component, JSXElementConstructor, ReactElement, ReactNode } from 'react';
+import React, {
+  Component,
+  forwardRef,
+  JSXElementConstructor,
+  ReactElement,
+  ReactNode,
+} from 'react';
 import { ForwardRefExoticComponent, RefAttributes } from 'react';
-import { PressableProps, PressableStateCallbackType, TextComponent } from 'react-native';
+import {
+  PressableProps as DefaultPressableProps,
+  PressableStateCallbackType,
+  TextComponent,
+} from 'react-native';
 import {
   Text as DefaultText,
   TextInput as DefaultTextInput,
@@ -43,8 +53,7 @@ export type ScrollViewProps = ThemeProps & DefaultScrollView['props'];
 export type AnimatedTextProps = ThemeProps & DefaultText['props'];
 export type AnimatedViewProps = ThemeProps & AnimateProps<ViewProps>;
 export type AnimatedImageProps = ThemeProps & AnimateProps<ImageProps>;
-export type Pressable = ThemeProps &
-  React.ForwardRefExoticComponent<PressableProps & React.RefAttributes<DefaultView>>;
+export type PressableProps = ThemeProps & DefaultPressableProps & DefaultView['props'];
 
 export function Head(props: TextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
@@ -149,13 +158,13 @@ export function AnimatedImage(props: AnimatedImageProps) {
   return <Animated.Image style={[{ borderColor }, style]} {...otherProps} />;
 }
 
-export function Pressable(props: Pressable) {
-  const { lightColor, darkColor, ...otherProps } = props;
+export const Pressable = forwardRef((props: PressableProps, buttonRef: React.Ref<DefaultView>) => {
+  const { style, lightColor, darkColor, ...otherProps } = props;
   const borderColor = useThemeColor({ light: lightColor, dark: darkColor }, 'border');
 
   return (
-    <DefaultPressable style={[{ borderColor }]} {...otherProps}>
-      {/* {children} */}
+    <DefaultPressable style={[{ borderColor }, style]} {...otherProps} ref={buttonRef}>
+      {props.children}
     </DefaultPressable>
   );
-}
+});
