@@ -1,6 +1,6 @@
-import { ResultObject, Answer } from '../../types';
+import { ResultObject, Answers } from '../../types';
 
-export const disableTextInput = (result: ResultObject, param: Answer, value: number) => {
+export const disableTextInput = (result: ResultObject, param: Answers, value: number) => {
   if (value === 5) {
     return false;
   }

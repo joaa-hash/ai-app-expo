@@ -2,7 +2,9 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    minWidth: 480,
+    width: '60%',
+    maxWidth: 600,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -11,9 +13,7 @@ export const styles = StyleSheet.create({
     zIndex: 1,
   },
   modalView: {
-    minWidth: 480,
-    width: '60%',
-    maxWidth: 600,
+    width: '100%',
     borderRadius: 20,
     paddingVertical: 25,
     paddingHorizontal: 18,
@@ -32,21 +32,16 @@ export const styles = StyleSheet.create({
     top: 0,
     right: 0,
     zIndex: 1,
-    color: '#fff',
     paddingTop: 4,
-    paddingRight: 10,
+    paddingRight: 8,
   },
   closeButtonText: {
     fontSize: 18,
     padding: 8,
     fontWeight: '900',
   },
-  text: {
-    color: '#fff',
-  },
   lineBreak: {
     width: '80%',
-    backgroundColor: '#fff',
     height: 1,
   },
 });

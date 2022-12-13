@@ -61,7 +61,7 @@ export type ResultObject = {
   urls: string[];
 };
 
-export type Answer = {
+export type Answers = {
   id: number;
   userInput: string;
 }[];

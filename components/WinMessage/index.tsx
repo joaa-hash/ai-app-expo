@@ -2,10 +2,10 @@ import React from 'react';
 import { Easing, StyleSheet } from 'react-native';
 import { useAnimatedStyle, withDelay, withTiming } from 'react-native-reanimated';
 import { checkAnswer } from '../../hooks';
-import { Answer, ResultObject } from '../../types';
+import { Answers, ResultObject } from '../../types';
 import { AnimatedText } from '../Theme/Themed';
 
-export const showWinMessage = (result: ResultObject, answer: Answer, guesses: number) => {
+export const showWinMessage = (result: ResultObject, answer: Answers, guesses: number) => {
   const checkedAnswer = guesses > 0 ? checkAnswer(result, answer[guesses - 1].userInput) : false;
   const config = {
     duration: 1000,

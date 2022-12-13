@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { View, TextPrimary } from '../Theme/Themed';
-import { Answer, ResultObject } from '../../types';
+import { Answers, ResultObject } from '../../types';
 import { styles } from './styles';
 import { checkAnswer, setFontSize } from '../../hooks';
 import { showWinMessage } from '../WinMessage';
@@ -8,7 +8,7 @@ import { TextColorChangeAnimation } from '../Animations/TextColorChangeAnimation
 import { TextInput } from 'react-native';
 
 type Props = {
-  answer: Answer;
+  answer: Answers;
   userInput: string;
   guesses: number;
   result: ResultObject;
@@ -21,7 +21,7 @@ export const GameBoard = ({ answer, userInput, guesses, result, textInputRef }: 
   };
 
   const showAnswers = useCallback(
-    (answer: Answer, userInput: string, guesses: number, inputRef: Props['textInputRef']) => {
+    (answer: Answers, userInput: string, guesses: number, inputRef: Props['textInputRef']) => {
       return answer.map((obj, index) => {
         return obj.userInput.length === 0 && index === guesses ? (
           <View key={obj.id} style={styles.answerListView}>

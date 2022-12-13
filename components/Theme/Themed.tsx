@@ -16,6 +16,7 @@ import {
   Text as DefaultText,
   TextInput as DefaultTextInput,
   View as DefaultView,
+  ViewProps as DefaultViewProps,
   ScrollView as DefaultScrollView,
   Pressable as DefaultPressable,
   ImageProps,
@@ -48,7 +49,7 @@ type ThemeProps = {
 
 export type TextProps = ThemeProps & DefaultText['props'];
 export type TextInputProps = ThemeProps & DefaultTextInput['props'];
-export type ViewProps = ThemeProps & DefaultView['props'];
+export type ViewProps = ThemeProps & DefaultViewProps;
 export type ScrollViewProps = ThemeProps & DefaultScrollView['props'];
 export type AnimatedTextProps = ThemeProps & DefaultText['props'];
 export type AnimatedViewProps = ThemeProps & AnimateProps<ViewProps>;
@@ -136,7 +137,11 @@ export function View(props: ViewProps) {
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
   const borderColor = useThemeColor({ light: lightColor, dark: darkColor }, 'border');
 
-  return <DefaultView style={[{ backgroundColor, borderColor }, style]} {...otherProps} />;
+  return (
+    <DefaultView style={[{ backgroundColor, borderColor }, style]} {...otherProps}>
+      {props.children}
+    </DefaultView>
+  );
 }
 
 export function ScrollView(props: ScrollViewProps) {

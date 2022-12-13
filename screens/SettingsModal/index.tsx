@@ -7,8 +7,8 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { View, TextPrimary, Head, Pressable } from '../../components/Theme/Themed';
-import { StatsContainer } from '../../components/StatsContainer';
-import { PlatformTypes, ResultObject, SetBooleanState } from '../../types';
+import { StatsContainer, Distribution } from '../../components';
+import { Answers, PlatformTypes, ResultObject, SetBooleanState } from '../../types';
 import { styles } from './styles';
 import Colors from '../../constants/Colors';
 import { useColorScheme } from '../../hooks';
@@ -18,6 +18,8 @@ interface Props {
   setSettingsModalState: SetBooleanState;
   result: ResultObject;
   textInputRef: React.RefObject<DefaultTextInput>;
+  answers: Answers;
+  guesses: number;
 }
 
 export const SettingsModal = ({
@@ -25,6 +27,8 @@ export const SettingsModal = ({
   settingsModalState,
   setSettingsModalState,
   textInputRef,
+  answers,
+  guesses,
 }: Props) => {
   const theme = useColorScheme();
   const closeModalButton = (platform: PlatformTypes) => {
@@ -66,6 +70,7 @@ export const SettingsModal = ({
               <Head style={{ textTransform: 'uppercase' }}>Stats</Head>
               <StatsContainer />
               <View style={[styles.lineBreak, { backgroundColor: Colors[theme]['textPrimary'] }]} />
+              <Distribution result={result} guesses={guesses} answers={answers} />
             </View>
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>

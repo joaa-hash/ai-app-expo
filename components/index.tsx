@@ -5,3 +5,4 @@ export * from './Header';
 export * from './ImageCarousel';
 export * from './StatsContainer';
 export * from './WinMessage';
+export * from './Distribution';

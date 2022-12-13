@@ -1,7 +1,10 @@
 import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    minHeight: 200,
+    minWidth: 480,
+    width: '60%',
+    maxWidth: 600,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -10,10 +13,7 @@ export const styles = StyleSheet.create({
     zIndex: 1,
   },
   modalView: {
-    minHeight: 200,
-    minWidth: 480,
-    width: '60%',
-    maxWidth: 600,
+    width: '100%',
     borderRadius: 20,
     paddingVertical: 25,
     paddingHorizontal: 6,

@@ -11,7 +11,7 @@ import {
 } from '../../hooks';
 import { InitialResultObject } from '../../models/InitialResultObject';
 import { InitialAnswerState } from '../../models/InitialAnswerState';
-import { ResultObject, Answer } from '../../types';
+import { ResultObject, Answers } from '../../types';
 import { SettingsModal } from '../SettingsModal/index';
 import { styles } from './styles';
 import * as Result from '../../hooks/temp.json';
@@ -28,44 +28,41 @@ export const Home: React.FC = () => {
   const [result, setResult] = useState<ResultObject>(InitialResultObject);
   const [userInput, setUserInput] = useState('');
   const [guesses, setGuesses] = useState(0);
-  const [answer, setAnswer] = useState<Answer>(InitialAnswerState);
+  const [answers, setAnswers] = useState<Answers>(InitialAnswerState);
 
   const textInputRef = React.createRef<TextInput>();
 
   useEffect(() => {
     setGuesses(guesses);
-    disableTextInput(result, answer, guesses);
-    hydrateAnswers(userInput, answer, guesses);
-    setAnswer(hydrateAnswers(userInput, answer, guesses));
+    disableTextInput(result, answers, guesses);
+    hydrateAnswers(userInput, answers, guesses);
+    setAnswers(hydrateAnswers(userInput, answers, guesses));
     textInputRef.current?.focus();
   }, [guesses]);
 
   useEffect(() => {
     if (!authModalState && !settingsModalState && !login && !register) {
-      console.log('====================================');
-      console.log('HIT');
-      console.log('====================================');
       textInputRef.current?.focus();
     }
   }, [authModalState, settingsModalState, login, register]);
 
   useEffect(() => {
     setResult(Result.result);
-    setAnswer(InitialAnswerState);
+    setAnswers(InitialAnswerState);
     setSettingsModalState(false);
     setUserInput('');
   }, [result]);
 
   useEffect(() => {
     setUserInput('');
-    if (guesses > 0 && checkAnswer(result, answer[guesses - 1].userInput) === true) {
+    if (guesses > 0 && checkAnswer(result, answers[guesses - 1].userInput) === true) {
       setTimeout(() => {
         setSettingsModalState(true);
       }, 2800);
     } else {
       return;
     }
-  }, [answer]);
+  }, [answers]);
 
   const config = {
     duration: 500,
@@ -86,6 +83,8 @@ export const Home: React.FC = () => {
         settingsModalState={settingsModalState}
         setSettingsModalState={setSettingsModalState}
         textInputRef={textInputRef}
+        answers={answers}
+        guesses={guesses}
       />
       <AuthModal
         setLogin={setLogin}
@@ -132,7 +131,7 @@ export const Home: React.FC = () => {
           >
             <View style={styles.typeContainer}>{Category(result)}</View>
             <TextInput
-              editable={disableTextInput(result, answer, guesses)}
+              editable={disableTextInput(result, answers, guesses)}
               style={styles.input}
               value={userInput.replace(/[`~0-9@#%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')}
               onChangeText={(input) =>
@@ -164,7 +163,7 @@ export const Home: React.FC = () => {
                 </View>
               </View>
               <GameBoard
-                answer={answer}
+                answer={answers}
                 userInput={userInput}
                 guesses={guesses}
                 result={result}
