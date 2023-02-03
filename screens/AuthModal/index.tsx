@@ -3,7 +3,7 @@ import { Modal, TextInput, TouchableWithoutFeedback } from 'react-native';
 import { auth } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-import { BaseProfile } from '../../constants/BaseProfile';
+import { BaseProfile } from '../../models/BaseProfile';
 import Login from '../../components/Authentication/Login';
 import Signup from '../../components/Authentication/SignUp';
 import { checkRequired } from '../../hooks';

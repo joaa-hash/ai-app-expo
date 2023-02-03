@@ -1,6 +1,6 @@
 export const InitialResultObject = {
   id: 0,
-  type: [''],
+  category: [''],
   artist: '',
   album: '',
   genre: '',

@@ -10,7 +10,7 @@ import {
   Pressable,
   SubHead,
 } from '../Theme/Themed';
-import { BaseProfile } from '../../constants/BaseProfile';
+import { BaseProfile } from '../../models/BaseProfile';
 import Colors from '../../constants/Colors';
 import { handleSignUp, checkRequiredForRegister, useColorScheme } from '../../hooks';
 import { AuthTypes } from '../../types';

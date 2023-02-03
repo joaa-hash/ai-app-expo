@@ -4,7 +4,7 @@ import { KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import { checkRequired, handleLogin, useColorScheme } from '../../hooks';
 import { styles } from './styles';
 import Colors from '../../constants/Colors';
-import { BaseProfile } from '../../constants/BaseProfile';
+import { BaseProfile } from '../../models/BaseProfile';
 import { AuthTypes } from '../../types';
 
 export default function Login({

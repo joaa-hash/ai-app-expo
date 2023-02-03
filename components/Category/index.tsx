@@ -4,11 +4,11 @@ import { Head } from '../Theme/Themed';
 import { ResultObject } from '../../types';
 
 export const Category = (result: ResultObject) => {
-  return result.type.map((el, idx) => {
+  return result.category.map((el, idx) => {
     return (
       <Head key={idx} style={styles.typeText}>
         {el.toUpperCase()}
-        {idx + 1 !== result.type.length && result.type.length > 1 ? ' | ' : null}
+        {idx + 1 !== result.category.length && result.category.length > 1 ? ' | ' : null}
       </Head>
     );
   });

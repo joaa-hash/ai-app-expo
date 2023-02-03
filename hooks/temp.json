@@ -1,7 +1,7 @@
 {
   "result": {
     "id": 100,
-    "type": ["Movie", "Book"],
+    "category": ["Movie", "Book"],
     "artist": "",
     "album": "",
     "genre": "Fantasy",

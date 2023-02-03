@@ -51,7 +51,7 @@ export type PlatformTypes =
 
 export type ResultObject = {
   id: number;
-  type: string[];
+  category: string[];
   artist: string;
   album: string;
   genre: string;
@@ -68,6 +68,16 @@ export type Answers = {
 
 export type Profile = {
   firstName: string;
+  gamesPlayed: number;
+  guessHistory: {
+    1: number;
+    2: number;
+    3: number;
+    4: number;
+    5: number;
+  };
+  streak: number;
+  longestStreak: number;
 };
 
 export type AuthTypes = {
