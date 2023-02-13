@@ -6,5 +6,5 @@ export const checkStyles = (
   webStyle: StyleProp<ViewStyle>,
   platform: PlatformTypes
 ) => {
-  return platform.OS === 'web' ? webStyle : mobileStyle;
+  return platform === 'web' ? webStyle : mobileStyle;
 };

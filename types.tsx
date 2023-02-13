@@ -6,13 +6,6 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import {
-  PlatformAndroidStatic,
-  PlatformIOSStatic,
-  PlatformMacOSStatic,
-  PlatformWebStatic,
-  PlatformWindowsOSStatic,
-} from 'react-native';
 
 declare global {
   namespace ReactNavigation {
@@ -33,8 +26,7 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
 >;
 
 export type RootTabParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
+  Home: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
@@ -42,12 +34,7 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
   NativeStackScreenProps<RootStackParamList>
 >;
 
-export type PlatformTypes =
-  | PlatformIOSStatic
-  | PlatformAndroidStatic
-  | PlatformWindowsOSStatic
-  | PlatformMacOSStatic
-  | PlatformWebStatic;
+export type PlatformTypes = 'web' | 'ios' | 'android' | 'windows' | 'macos';
 
 export type ResultObject = {
   id: number;

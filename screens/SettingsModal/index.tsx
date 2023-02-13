@@ -2,7 +2,6 @@ import React from 'react';
 import {
   KeyboardAvoidingView,
   Modal,
-  Platform,
   TextInput as DefaultTextInput,
   TouchableWithoutFeedback,
 } from 'react-native';
@@ -20,6 +19,7 @@ interface Props {
   textInputRef: React.RefObject<DefaultTextInput>;
   answers: Answers;
   guesses: number;
+  platform: PlatformTypes;
 }
 
 export const SettingsModal = ({
@@ -29,10 +29,11 @@ export const SettingsModal = ({
   textInputRef,
   answers,
   guesses,
+  platform,
 }: Props) => {
   const theme = useColorScheme();
   const closeModalButton = (platform: PlatformTypes) => {
-    return platform.OS === 'web' ? (
+    return platform === 'web' ? (
       <Pressable
         style={styles.closeButton}
         onPress={() => {
@@ -66,7 +67,7 @@ export const SettingsModal = ({
         <TouchableWithoutFeedback>
           <KeyboardAvoidingView style={styles.container} behavior="padding">
             <View style={[styles.modalView]}>
-              {closeModalButton(Platform)}
+              {closeModalButton(platform)}
               <Head style={{ textTransform: 'uppercase' }}>Stats</Head>
               <StatsContainer />
               <View style={[styles.lineBreak, { backgroundColor: Colors[theme]['textPrimary'] }]} />

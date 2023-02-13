@@ -85,6 +85,7 @@ export const Home: React.FC = () => {
         textInputRef={textInputRef}
         answers={answers}
         guesses={guesses}
+        platform={Platform.OS}
       />
       <AuthModal
         setLogin={setLogin}
@@ -127,7 +128,11 @@ export const Home: React.FC = () => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={{ width: '100%' }}
-            contentContainerStyle={checkStyles(styles.homePageMobile, styles.homePageWeb, Platform)}
+            contentContainerStyle={checkStyles(
+              styles.homePageMobile,
+              styles.homePageWeb,
+              Platform.OS
+            )}
           >
             <View style={styles.typeContainer}>{Category(result)}</View>
             <TextInput
@@ -148,6 +153,7 @@ export const Home: React.FC = () => {
               autoFocus={false}
               ref={textInputRef}
               maxLength={38}
+              autoCorrect={false}
             />
             <View style={styles.triviaContent}>
               <View style={styles.aiHintContainer}>
