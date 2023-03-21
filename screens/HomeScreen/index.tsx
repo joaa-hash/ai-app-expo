@@ -11,13 +11,17 @@ import {
 } from '../../hooks';
 import { InitialResultObject } from '../../models/InitialResultObject';
 import { InitialAnswerState } from '../../models/InitialAnswerState';
-import { ResultObject, Answers } from '../../types';
+import { ResultObject, Answers, Profile } from '../../types';
 import { SettingsModal } from '../SettingsModal/index';
 import { styles } from './styles';
 import * as Result from '../../hooks/temp.json';
 import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import Colors from '../../constants/Colors';
 import AuthModal from '../AuthModal';
+import { InitBaseProfile, IProfile } from '../../models/BaseProfile';
+import { auth, db } from '../../firebase';
+import { getDocs, collection } from 'firebase/firestore';
+import { updateUserData } from '../../hooks/utils/updateUserData';
 
 export const Home: React.FC = () => {
   const theme = useColorScheme();
@@ -29,8 +33,56 @@ export const Home: React.FC = () => {
   const [userInput, setUserInput] = useState('');
   const [guesses, setGuesses] = useState(0);
   const [answers, setAnswers] = useState<Answers>(InitialAnswerState);
+  const [userData, setUserData] = useState<Profile | undefined>();
+  const [userProfileDoc, setUserProfileDoc] = useState<Profile>();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>();
 
   const textInputRef = React.createRef<TextInput>();
+
+  const getFirestoreUserData = async () => {
+    if (auth.currentUser) {
+      await getDocs(collection(db, 'profiles')).then((val) => {
+        val.docs.forEach((el, index) => {
+          if (auth.currentUser?.uid && el.id.includes(auth.currentUser?.uid)) {
+            setUserProfileDoc(el.data() as Profile);
+          }
+        });
+      });
+    }
+  };
+
+  const getUserData = () => {
+    if (userProfileDoc && userData) {
+      setUserData(userProfileDoc.gamesPlayed > userData?.gamesPlayed ? userProfileDoc : userData);
+    }
+    if (!userData) {
+      if (localStorage.getItem('userData')) {
+        setUserData(JSON.parse(localStorage.getItem('userData')!));
+      } else {
+        localStorage.setItem('userData', JSON.stringify(InitBaseProfile));
+        if (localStorage.getItem('userData')) {
+          setUserData(JSON.parse(localStorage.getItem('userData')!));
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    getFirestoreUserData();
+    if (auth.currentUser) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [auth.currentUser, userData]);
+
+  useEffect(() => {
+    getUserData();
+  }, [userData]);
+
+  useEffect(() => {
+    updateUserData(guesses, result, answers, userData, setUserData);
+  }, [guesses, userInput]);
 
   useEffect(() => {
     setGuesses(guesses);
@@ -86,6 +138,7 @@ export const Home: React.FC = () => {
         answers={answers}
         guesses={guesses}
         platform={Platform.OS}
+        userData={userData}
       />
       <AuthModal
         setLogin={setLogin}
@@ -95,6 +148,8 @@ export const Home: React.FC = () => {
         authModalState={authModalState}
         setAuthModalState={setAuthModalState}
         textInputRef={textInputRef}
+        userData={userData}
+        setUserData={setUserData}
       />
       <TouchableWithoutFeedback
         onPress={() => {
@@ -121,6 +176,8 @@ export const Home: React.FC = () => {
               register={register}
               setRegister={setRegister}
               textInputRef={textInputRef}
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
             />
           ) : (
             <></>

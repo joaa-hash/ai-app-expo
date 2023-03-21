@@ -4,8 +4,8 @@ import { KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import { checkRequired, handleLogin, useColorScheme } from '../../hooks';
 import { styles } from './styles';
 import Colors from '../../constants/Colors';
-import { BaseProfile } from '../../models/BaseProfile';
 import { AuthTypes } from '../../types';
+import { auth } from '../../firebase';
 
 export default function Login({
   password,
@@ -14,12 +14,11 @@ export default function Login({
   setEmail,
   setVerifyPassword,
   setPassword,
-  setProfile,
+  setUserData,
+  userData,
   setAuthModalState,
   authModalState,
-  register,
   setRegister,
-  login,
   setLogin,
 }: AuthTypes) {
   const theme = useColorScheme();
@@ -83,7 +82,8 @@ export default function Login({
                 setEmail('');
                 setPassword('');
                 setVerifyPassword('');
-                setProfile(BaseProfile);
+                setUserData(userData);
+                auth.currentUser?.reload();
                 setAuthModalState(!authModalState);
                 setLogin(false);
                 setRegister(false);
@@ -93,7 +93,10 @@ export default function Login({
               <TextPrimary style={[styles.buttonText, { color: '#ffffff' }]}>Cancel</TextPrimary>
             </Pressable>
             <Pressable
-              onPress={() => handleLogin(email, password)}
+              onPress={() => {
+                handleLogin(email, password);
+                setAuthModalState(false);
+              }}
               style={[styles.button, disableLoginButton()]}
               disabled={checkRequired(email, password, verifyPassword)}
             >

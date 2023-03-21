@@ -94,4 +94,35 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  text: {
+    fontSize: 16,
+  },
+  authGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  signUpAuthButton: {
+    marginRight: 30,
+    borderColor: '#5346c4',
+    borderWidth: 3,
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    '&:hover': {
+      borderColor: '#fff',
+    },
+  },
+  logInOutAuthButton: {
+    marginRight: 30,
+    backgroundColor: '#5346c4',
+    borderColor: '#5346c4',
+    borderWidth: 3,
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    '&:hover': {
+      borderColor: '#fff',
+      backgroundColor: '#fff',
+    },
+  },
 });

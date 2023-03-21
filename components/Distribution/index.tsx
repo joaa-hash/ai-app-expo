@@ -1,31 +1,54 @@
 import React from 'react';
-import { Answers, ResultObject } from '../../types';
-import { View, TextPrimary, SubHead } from '../Theme/Themed';
+import { Profile } from '../../types';
+import { View, TextPrimary, SubHead, SubTextTertiary } from '../Theme/Themed';
 import { styles } from './styles';
 
 type Props = {
-  result: ResultObject;
-  guesses: number;
-  answers: Answers;
+  userData: Profile;
 };
 
-export const Distribution = (props: Props): JSX.Element => {
-  const distributionMap = (guesses: number, answers: Answers): JSX.Element[] => {
-    return answers.map((object) => {
-      return (
-        <View style={styles.mapContainer}>
-          <TextPrimary style={styles.answerIndex}>{object.id}:</TextPrimary>
-          <TextPrimary style={styles.input}>{object.userInput}</TextPrimary>
-        </View>
-      );
-    });
+export const Distribution = ({ userData }: Props): JSX.Element => {
+  const distributionMap = (profile: Profile): JSX.Element[] => {
+    if (profile) {
+      return Object.keys(profile.guessHistory).map((key, index) => {
+        const distroPercentage = profile.guessHistory[key as keyof object] / profile.gamesPlayed;
+        const width =
+          profile.guessHistory[key as keyof object] === 0 ? 0 : `${distroPercentage * 100}%`;
+        const backgroundColor = `rgba(255, 255, 255, ${distroPercentage + 0.5})`;
+
+        return (
+          <View key={index} style={[styles.rowContainer]}>
+            <TextPrimary style={styles.answerIndex}>{index + 1}</TextPrimary>
+            <View style={[styles.guessBarContainer]}>
+              <View style={[styles.guessBar]}>
+                <SubTextTertiary style={[styles.input]}>
+                  {profile.guessHistory[key as keyof object]}
+                </SubTextTertiary>
+                <View
+                  style={[
+                    styles.line,
+                    {
+                      width,
+                      backgroundColor,
+                    },
+                  ]}
+                >
+                  <TextPrimary> </TextPrimary>
+                </View>
+              </View>
+            </View>
+          </View>
+        );
+      });
+    } else return [<></>];
   };
 
   return (
     <View style={styles.container}>
       <SubHead>Guess Distribution:</SubHead>
-      <TextPrimary>{props.guesses}</TextPrimary>
-      <View style={styles.mapContainer}>{distributionMap(props.guesses, props.answers)}</View>
+      <View style={styles.mapContainer}>
+        {userData ? distributionMap(userData) : <TextPrimary>N/A</TextPrimary>}
+      </View>
     </View>
   );
 };

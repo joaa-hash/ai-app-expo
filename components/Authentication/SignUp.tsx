@@ -10,7 +10,6 @@ import {
   Pressable,
   SubHead,
 } from '../Theme/Themed';
-import { BaseProfile } from '../../models/BaseProfile';
 import Colors from '../../constants/Colors';
 import { handleSignUp, checkRequiredForRegister, useColorScheme } from '../../hooks';
 import { AuthTypes } from '../../types';
@@ -22,13 +21,11 @@ export default function Signup({
   setPassword,
   verifyPassword,
   setVerifyPassword,
-  profile,
-  setProfile,
+  userData,
+  setUserData,
   authModalState,
   setAuthModalState,
-  register,
   setRegister,
-  login,
   setLogin,
 }: AuthTypes) {
   const theme = useColorScheme();
@@ -36,24 +33,24 @@ export default function Signup({
   const disableRegisterButton = useCallback(() => {
     return {
       backgroundColor:
-        checkRequiredForRegister(email, password, verifyPassword, profile) === true
+        checkRequiredForRegister(email, password, verifyPassword, userData) === true
           ? Colors[theme].background
           : '#3f2fd3',
       borderColor:
-        checkRequiredForRegister(email, password, verifyPassword, profile) === true
+        checkRequiredForRegister(email, password, verifyPassword, userData) === true
           ? '#3f3f3f'
           : '#3f2fd3',
     };
-  }, [password, verifyPassword, theme, email, profile]);
+  }, [password, verifyPassword, theme, email, userData]);
 
   const changeTextColorForRegister = useCallback(() => {
     return {
       color:
-        checkRequiredForRegister(email, password, verifyPassword, profile) === true
+        checkRequiredForRegister(email, password, verifyPassword, userData) === true
           ? Colors[theme].textPrimary
           : '#ffffff',
     };
-  }, [theme, email, password, verifyPassword, profile.firstName]);
+  }, [theme, email, password, verifyPassword, userData]);
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -105,8 +102,8 @@ export default function Signup({
             <SubHead>What's your name?</SubHead>
             <View style={styles.formInput}>
               <TextInput
-                value={profile.firstName}
-                onChangeText={(text) => setProfile({ ...profile, firstName: text })}
+                value={userData?.firstName}
+                // onChangeText={(text) => setUserData({ ...userData!, firstName: text })}
                 style={[
                   styles.input,
                   {
@@ -130,7 +127,7 @@ export default function Signup({
                 setEmail('');
                 setPassword('');
                 setVerifyPassword('');
-                setProfile(BaseProfile);
+                setUserData(userData);
                 setAuthModalState(!authModalState);
                 setLogin(false);
                 setRegister(false);
@@ -145,7 +142,7 @@ export default function Signup({
                 setAuthModalState(!authModalState);
               }}
               style={[styles.button, disableRegisterButton()]}
-              disabled={checkRequiredForRegister(email, password, verifyPassword, profile)}
+              disabled={checkRequiredForRegister(email, password, verifyPassword, userData)}
             >
               <TextPrimary style={[styles.buttonText, changeTextColorForRegister()]}>
                 Submit

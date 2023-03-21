@@ -3,11 +3,10 @@ import { Modal, TextInput, TouchableWithoutFeedback } from 'react-native';
 import { auth } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-import { BaseProfile } from '../../models/BaseProfile';
 import Login from '../../components/Authentication/Login';
 import Signup from '../../components/Authentication/SignUp';
 import { checkRequired } from '../../hooks';
-import { AuthTypes, SetBooleanState } from '../../types';
+import { AuthTypes, Profile, SetBooleanState } from '../../types';
 
 type Props = {
   authModalState: boolean;
@@ -17,6 +16,8 @@ type Props = {
   setLogin: AuthTypes['setLogin'];
   setRegister: AuthTypes['setRegister'];
   textInputRef: React.RefObject<TextInput>;
+  userData: Profile;
+  setUserData: React.Dispatch<React.SetStateAction<Profile>>;
 };
 
 export default function AuthModal({
@@ -27,11 +28,12 @@ export default function AuthModal({
   setLogin,
   setRegister,
   textInputRef,
+  userData,
+  setUserData,
 }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [verifyPassword, setVerifyPassword] = useState('');
-  const [profile, setProfile] = useState(BaseProfile);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -40,7 +42,6 @@ export default function AuthModal({
         navigation.navigate('Root');
       }
     });
-
     return unsubscribe;
   }, [authModalState]);
 
@@ -75,8 +76,8 @@ export default function AuthModal({
             register={register}
             authModalState={authModalState}
             setAuthModalState={setAuthModalState}
-            setProfile={setProfile}
-            profile={profile}
+            setUserData={setUserData}
+            userData={userData}
             email={email}
             password={password}
             setEmail={setEmail}
@@ -93,12 +94,12 @@ export default function AuthModal({
             email={email}
             password={password}
             verifyPassword={verifyPassword}
-            profile={profile}
+            userData={userData}
             authModalState={authModalState}
             setEmail={setEmail}
             setPassword={setPassword}
             setVerifyPassword={setVerifyPassword}
-            setProfile={setProfile}
+            setUserData={setUserData}
             setAuthModalState={setAuthModalState}
           />
         ) : (

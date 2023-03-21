@@ -1,8 +1,10 @@
 import React, { createRef, useEffect, useState } from 'react';
 import { TextInput, View as RNView } from 'react-native';
 import Colors from '../../constants/Colors';
+import { auth } from '../../firebase';
 import { useColorScheme } from '../../hooks';
 import { AuthTypes, SetBooleanState } from '../../types';
+import { AuthButtonGroup } from '../Authentication/AuthButtonGroup';
 import { View, TextPrimary, Pressable } from '../Theme/Themed';
 import { styles } from './styles';
 
@@ -16,6 +18,8 @@ interface Props {
   register: AuthTypes['register'];
   setRegister: AuthTypes['setRegister'];
   textInputRef: React.RefObject<TextInput>;
+  isLoggedIn: boolean | undefined;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 }
 
 export const Header = ({
@@ -28,13 +32,16 @@ export const Header = ({
   register,
   setRegister,
   textInputRef,
+  isLoggedIn,
+  setIsLoggedIn,
 }: Props) => {
   const [signUpHover, setSignUpHover] = useState(false);
   const [logHover, setLogHover] = useState(false);
   const [settingsHover, setSettingsHover] = useState(false);
+
   const theme = useColorScheme();
 
-  const buttonRef = React.createRef<RNView>();
+  const buttonRef: React.RefObject<RNView> = React.createRef<RNView>();
 
   return (
     <View style={styles.container}>
@@ -42,47 +49,19 @@ export const Header = ({
         <TextPrimary style={styles.logo}>triv_AI</TextPrimary>
       </View>
       <View style={styles.utilityContainer}>
-        <View style={styles.authGroup}>
-          <Pressable
-            onPress={() => {
-              setAuthModalState(true);
-              setRegister(true);
-              buttonRef.current?.blur();
-              textInputRef.current?.focus();
-            }}
-            onHoverIn={() => setSignUpHover(true)}
-            onHoverOut={() => setSignUpHover(false)}
-            style={[
-              styles.signUpAuthButton,
-              { borderColor: signUpHover ? Colors[theme]['border'] : '#5346c4' },
-            ]}
-            ref={buttonRef}
-          >
-            <TextPrimary style={styles.text}>Create Account</TextPrimary>
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              setLogin(true);
-              setAuthModalState(true);
-              buttonRef.current?.blur();
-              textInputRef.current?.focus();
-            }}
-            onHoverIn={() => setLogHover(true)}
-            onHoverOut={() => setLogHover(false)}
-            style={[
-              styles.logInOutAuthButton,
-              {
-                borderColor: logHover ? Colors[theme]['border'] : '#5346c4',
-                backgroundColor: logHover ? '#fff' : '#5346c4',
-              },
-            ]}
-            ref={buttonRef}
-          >
-            <TextPrimary style={[styles.text, { color: logHover ? '#000000' : '#fff' }]}>
-              Login
-            </TextPrimary>
-          </Pressable>
-        </View>
+        <AuthButtonGroup
+          setAuthModalState={setAuthModalState}
+          setRegister={setRegister}
+          buttonRef={buttonRef}
+          textInputRef={textInputRef}
+          setSignUpHover={setSignUpHover}
+          signUpHover={signUpHover}
+          setLogin={setLogin}
+          logHover={logHover}
+          setLogHover={setLogHover}
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
+        />
         <Pressable
           onHoverIn={() => setSettingsHover(true)}
           onHoverOut={() => setSettingsHover(false)}

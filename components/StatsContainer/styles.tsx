@@ -18,7 +18,8 @@ export const styles = StyleSheet.create({
     letterSpacing: 2.5,
   },
   statDescription: {
-    fontSize: 9,
-    letterSpacing: 2.5,
+    paddingTop: 2,
+    fontSize: 14,
+    letterSpacing: 2.9,
   },
 });

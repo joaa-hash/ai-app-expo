@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { View, TextPrimary, Head, Pressable } from '../../components/Theme/Themed';
 import { StatsContainer, Distribution } from '../../components';
-import { Answers, PlatformTypes, ResultObject, SetBooleanState } from '../../types';
+import { Answers, PlatformTypes, Profile, ResultObject, SetBooleanState } from '../../types';
 import { styles } from './styles';
 import Colors from '../../constants/Colors';
 import { useColorScheme } from '../../hooks';
@@ -20,16 +20,15 @@ interface Props {
   answers: Answers;
   guesses: number;
   platform: PlatformTypes;
+  userData: Profile;
 }
 
 export const SettingsModal = ({
-  result,
   settingsModalState,
   setSettingsModalState,
   textInputRef,
-  answers,
-  guesses,
   platform,
+  userData,
 }: Props) => {
   const theme = useColorScheme();
   const closeModalButton = (platform: PlatformTypes) => {
@@ -69,9 +68,9 @@ export const SettingsModal = ({
             <View style={[styles.modalView]}>
               {closeModalButton(platform)}
               <Head style={{ textTransform: 'uppercase' }}>Stats</Head>
-              <StatsContainer />
+              <StatsContainer userData={userData} />
               <View style={[styles.lineBreak, { backgroundColor: Colors[theme]['textPrimary'] }]} />
-              <Distribution result={result} guesses={guesses} answers={answers} />
+              <Distribution userData={userData} />
             </View>
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>

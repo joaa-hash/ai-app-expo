@@ -145,7 +145,7 @@ export const ImageCarousel = ({ result, guesses, textInputRef }: Props) => {
 
   const showImageIndex = useCallback(
     (imageIndex: number) => {
-      console.log(imageIndex);
+      // console.log(imageIndex);
       const toDisplay = imageUrls.map((_value, index) => {
         if (index === imageIndex) {
           return (

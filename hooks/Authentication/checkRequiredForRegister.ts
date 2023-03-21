@@ -12,7 +12,7 @@ export const checkRequiredForRegister = (
   return password === verifyPassword &&
     validatePassword(password, verifyPassword) &&
     reg.test(email) &&
-    profile.firstName.length > 0
+    profile?.firstName.length! > 0
     ? false
     : true;
 };

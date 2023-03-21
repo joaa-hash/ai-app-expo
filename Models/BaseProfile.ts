@@ -1,6 +1,19 @@
-import { Profile } from '../types';
+export interface IProfile {
+  firstName: string;
+  gamesPlayed: number;
+  guessHistory: {
+    1: number;
+    2: number;
+    3: number;
+    4: number;
+    5: number;
+  };
+  longestStreak: number;
+  streak: number;
+  wins: number;
+}
 
-export const BaseProfile: Profile = {
+export const InitBaseProfile: IProfile = {
   firstName: '',
   gamesPlayed: 0,
   guessHistory: {
@@ -10,6 +23,7 @@ export const BaseProfile: Profile = {
     4: 0,
     5: 0,
   },
-  streak: 0,
   longestStreak: 0,
+  streak: 0,
+  wins: 0,
 };

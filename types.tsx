@@ -1,8 +1,3 @@
-/**
- * Learn more about using TypeScript with React Navigation:
- * https://reactnavigation.org/docs/typescript/
- */
-
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -53,19 +48,22 @@ export type Answers = {
   userInput: string;
 }[];
 
-export type Profile = {
-  firstName: string;
-  gamesPlayed: number;
-  guessHistory: {
-    1: number;
-    2: number;
-    3: number;
-    4: number;
-    5: number;
-  };
-  streak: number;
-  longestStreak: number;
-};
+export type Profile =
+  | {
+      firstName: string;
+      gamesPlayed: number;
+      guessHistory: {
+        1: number;
+        2: number;
+        3: number;
+        4: number;
+        5: number;
+      };
+      longestStreak: number;
+      streak: number;
+      wins: number;
+    }
+  | undefined;
 
 export type AuthTypes = {
   email: string;
@@ -74,8 +72,8 @@ export type AuthTypes = {
   setPassword: SetStringState;
   verifyPassword: string;
   setVerifyPassword: SetStringState;
-  profile: Profile;
-  setProfile: React.Dispatch<React.SetStateAction<Profile>>;
+  userData: Profile;
+  setUserData: React.Dispatch<React.SetStateAction<Profile>>;
   authModalState: boolean;
   setAuthModalState: SetBooleanState;
   register: boolean;

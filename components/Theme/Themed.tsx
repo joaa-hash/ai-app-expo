@@ -1,17 +1,5 @@
-import { JSXElement } from '@babel/types';
-import React, {
-  Component,
-  forwardRef,
-  JSXElementConstructor,
-  ReactElement,
-  ReactNode,
-} from 'react';
-import { ForwardRefExoticComponent, RefAttributes } from 'react';
-import {
-  PressableProps as DefaultPressableProps,
-  PressableStateCallbackType,
-  TextComponent,
-} from 'react-native';
+import React, { forwardRef } from 'react';
+import { PressableProps as DefaultPressableProps } from 'react-native';
 import {
   Text as DefaultText,
   TextInput as DefaultTextInput,
@@ -20,7 +8,6 @@ import {
   ScrollView as DefaultScrollView,
   Pressable as DefaultPressable,
   ImageProps,
-  TextProps as DefaultTextProps,
 } from 'react-native';
 import Animated, { AnimateProps } from 'react-native-reanimated';
 
